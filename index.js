@@ -19,6 +19,14 @@ function divide(x, y) {
   return x / y;
 }
 
+function clear() {
+  X = null;
+  Y = null;
+  OPERATOR = null;
+  showingResults = false;
+  display.textContent = null;
+}
+
 function operate(display) {
   let result;
   X = +X;
@@ -30,7 +38,13 @@ function operate(display) {
   } else if (OPERATOR === "*") {
     result = multiply(X, Y);
   } else if (OPERATOR === "/") {
-    result = divide(X, Y);
+    if (Y === 0) {
+      clear();
+      display.textContent = "Error";
+      return;
+    } else {
+      result = divide(X, Y);
+    }
   }
   result = Math.round((result + Number.EPSILON) * 100_000_000) / 100_000_000;
   display.textContent = result;
@@ -48,6 +62,7 @@ digits.forEach((digit) => {
     if (!OPERATOR) {
       if (showingResults) {
         X = value;
+        showingResults = false;
       } else {
         X = X ? X + value : value;
       }
@@ -71,10 +86,7 @@ operators.forEach((operator) => {
 
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", () => {
-  X = null;
-  Y = null;
-  OPERATOR = null;
-  display.textContent = null;
+  clear();
 });
 
 const equalsButton = document.querySelector(".equals");
