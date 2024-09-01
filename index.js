@@ -1,7 +1,7 @@
 let X;
 let OPERATOR;
 let Y;
-let displayValue;
+let showingResults = false;
 
 function add(x, y) {
   return x + y;
@@ -45,14 +45,17 @@ const digits = document.querySelectorAll(".digit");
 digits.forEach((digit) => {
   digit.addEventListener("click", () => {
     const value = digit.textContent;
-    if (OPERATOR) {
+    if (!OPERATOR) {
+      if (showingResults) {
+        X = value;
+      } else {
+        X = X ? X + value : value;
+      }
+      display.textContent = X;
+    } else {
       Y = Y ? Y + value : value;
       display.textContent = Y;
-    } else {
-      X = X ? X + value : value;
-      display.textContent = X;
     }
-    console.log(X, OPERATOR, Y);
   });
 });
 
@@ -60,11 +63,8 @@ const operators = document.querySelectorAll(".operator");
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
     const value = operator.textContent;
-    if (value === "=" && X && Y) {
-      operate(display);
-    } else if (X) {
+    if (X && !Y) {
       OPERATOR = value;
-      display.textContent = null;
     }
   });
 });
@@ -75,4 +75,12 @@ clearButton.addEventListener("click", () => {
   Y = null;
   OPERATOR = null;
   display.textContent = null;
+});
+
+const equalsButton = document.querySelector(".equals");
+equalsButton.addEventListener("click", () => {
+  if (X && OPERATOR && Y) {
+    operate(display);
+    showingResults = true;
+  }
 });
