@@ -32,6 +32,7 @@ function operate(display) {
   } else if (OPERATOR === "/") {
     result = divide(X, Y);
   }
+  result = Math.round((result + Number.EPSILON) * 100_000_000) / 100_000_000;
   display.textContent = result;
   X = result;
   Y = null;
@@ -59,9 +60,9 @@ const operators = document.querySelectorAll(".operator");
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
     const value = operator.textContent;
-    if (value === "=" && Y) {
+    if (value === "=" && X && Y) {
       operate(display);
-    } else {
+    } else if (X) {
       OPERATOR = value;
       display.textContent = null;
     }
