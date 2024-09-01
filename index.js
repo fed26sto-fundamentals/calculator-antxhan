@@ -8,7 +8,7 @@ function clear() {
   Y = null;
   OPERATOR = null;
   showingResults = false;
-  display.textContent = null;
+  display.textContent = "0";
 }
 
 function operate(display) {
@@ -35,6 +35,28 @@ function operate(display) {
   X = result;
   Y = null;
   OPERATOR = null;
+}
+
+function negativeToggle() {
+  if (!OPERATOR) {
+    if (Math.sign(+X) === 1) {
+      X = `${-Math.abs(+X)}`;
+    } else if (Math.sign(+X) === -1) {
+      X = `${Math.abs(+X)}`;
+    } else {
+      X = X;
+    }
+    display.textContent = X;
+  } else {
+    if (Math.sign(+Y) === 1) {
+      Y = `${-Math.abs(+Y)}`;
+    } else if (Math.sign(+Y) === -1) {
+      Y = `${Math.abs(+Y)}`;
+    } else {
+      Y = Y;
+    }
+    display.textContent = Y;
+  }
 }
 
 const display = document.querySelector(".display");
@@ -68,6 +90,13 @@ operators.forEach((operator) => {
   });
 });
 
+const funcs = document.querySelectorAll(".func");
+funcs.forEach((func) => {
+  func.addEventListener("click", () => {
+    negativeToggle();
+  });
+});
+
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", () => {
   clear();
@@ -80,3 +109,9 @@ equalsButton.addEventListener("click", () => {
     showingResults = true;
   }
 });
+
+function init() {
+  clear();
+}
+
+init();
