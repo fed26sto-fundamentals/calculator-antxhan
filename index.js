@@ -3,22 +3,6 @@ let OPERATOR;
 let Y;
 let showingResults = false;
 
-function add(x, y) {
-  return x + y;
-}
-
-function subtract(x, y) {
-  return x - y;
-}
-
-function multiply(x, y) {
-  return x * y;
-}
-
-function divide(x, y) {
-  return x / y;
-}
-
 function clear() {
   X = null;
   Y = null;
@@ -32,18 +16,18 @@ function operate(display) {
   X = +X;
   Y = +Y;
   if (OPERATOR === "+") {
-    result = add(X, Y);
+    result = X + Y;
   } else if (OPERATOR === "-") {
-    result = subtract(X, Y);
+    result = X - Y;
   } else if (OPERATOR === "*") {
-    result = multiply(X, Y);
+    result = X * Y;
   } else if (OPERATOR === "/") {
     if (Y === 0) {
       clear();
       display.textContent = "Error";
       return;
     } else {
-      result = divide(X, Y);
+      result = X / Y;
     }
   }
   result = Math.round((result + Number.EPSILON) * 100_000_000) / 100_000_000;
