@@ -59,6 +59,28 @@ function negativeToggle() {
   }
 }
 
+function percent() {
+  //   if (!OPERATOR) {
+  //     if (Math.sign(+X) === 1) {
+  //       X = `${-Math.abs(+X)}`;
+  //     } else if (Math.sign(+X) === -1) {
+  //       X = `${Math.abs(+X)}`;
+  //     } else {
+  //       X = X;
+  //     }
+  //     display.textContent = X;
+  //   } else {
+  //     if (Math.sign(+Y) === 1) {
+  //       Y = `${-Math.abs(+Y)}`;
+  //     } else if (Math.sign(+Y) === -1) {
+  //       Y = `${Math.abs(+Y)}`;
+  //     } else {
+  //       Y = Y;
+  //     }
+  //     display.textContent = Y;
+  //   }
+}
+
 const display = document.querySelector(".display");
 
 const digits = document.querySelectorAll(".digit");
@@ -70,11 +92,19 @@ digits.forEach((digit) => {
         X = value;
         showingResults = false;
       } else {
-        X = X ? X + value : value;
+        if (X === "0") {
+          X = value;
+        } else {
+          X = X ? X + value : value;
+        }
       }
       display.textContent = X;
     } else {
-      Y = Y ? Y + value : value;
+      if (Y === "0") {
+        Y = value;
+      } else {
+        Y = Y ? Y + value : value;
+      }
       display.textContent = Y;
     }
   });
@@ -93,7 +123,12 @@ operators.forEach((operator) => {
 const funcs = document.querySelectorAll(".func");
 funcs.forEach((func) => {
   func.addEventListener("click", () => {
-    negativeToggle();
+    const value = func.textContent;
+    if (value === "+/-") {
+      negativeToggle();
+    } else if (value === "%") {
+      percent();
+    }
   });
 });
 
