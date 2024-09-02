@@ -2,6 +2,11 @@ let X = "0";
 let Y = "";
 let OPERATOR = "";
 
+// const DISPLAY = document.querySelector(".display");
+// let previousNum = "";
+// let currentNum = "";
+// let currentNum = document.querySelector(".display").textContent;
+
 const display = document.querySelector(".display");
 const clearButton = document.querySelector("button.clear");
 clearButton.addEventListener("click", () => {
@@ -28,6 +33,8 @@ function prettifyNumber(n) {
   }
 }
 
+function toggleNegative(n) {}
+
 const digits = document.querySelectorAll(".digit");
 digits.forEach((digit) => {
   digit.addEventListener("click", (e) => {
@@ -51,7 +58,6 @@ digits.forEach((digit) => {
 
 function init() {
   X = "0";
-  //   X = prettifyNumber("4561.5678");
   Y = "";
   OPERATOR = "";
   display.textContent = X;
