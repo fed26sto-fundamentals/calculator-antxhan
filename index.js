@@ -1,152 +1,60 @@
-let X;
-let OPERATOR;
-let Y;
-let showingResults = false;
-
-function clear() {
-  X = null;
-  Y = null;
-  OPERATOR = null;
-  showingResults = false;
-  display.textContent = "0";
-}
-
-function operate(display) {
-  let result;
-  X = +X;
-  Y = +Y;
-  if (OPERATOR === "+") {
-    result = X + Y;
-  } else if (OPERATOR === "-") {
-    result = X - Y;
-  } else if (OPERATOR === "*") {
-    result = X * Y;
-  } else if (OPERATOR === "/") {
-    if (Y === 0) {
-      clear();
-      display.textContent = "Error";
-      return;
-    } else {
-      result = X / Y;
-    }
-  }
-  result = Math.round((result + Number.EPSILON) * 100_000_000) / 100_000_000;
-  display.textContent = result;
-  X = result;
-  Y = null;
-  OPERATOR = null;
-}
-
-function negativeToggle() {
-  if (!OPERATOR) {
-    if (Math.sign(+X) === 1) {
-      X = `${-Math.abs(+X)}`;
-    } else if (Math.sign(+X) === -1) {
-      X = `${Math.abs(+X)}`;
-    } else {
-      X = X;
-    }
-    display.textContent = X;
-  } else {
-    if (Math.sign(+Y) === 1) {
-      Y = `${-Math.abs(+Y)}`;
-    } else if (Math.sign(+Y) === -1) {
-      Y = `${Math.abs(+Y)}`;
-    } else {
-      Y = Y;
-    }
-    display.textContent = Y;
-  }
-}
-
-function percent() {
-  //   if (!OPERATOR) {
-  //     if (Math.sign(+X) === 1) {
-  //       X = `${-Math.abs(+X)}`;
-  //     } else if (Math.sign(+X) === -1) {
-  //       X = `${Math.abs(+X)}`;
-  //     } else {
-  //       X = X;
-  //     }
-  //     display.textContent = X;
-  //   } else {
-  //     if (Math.sign(+Y) === 1) {
-  //       Y = `${-Math.abs(+Y)}`;
-  //     } else if (Math.sign(+Y) === -1) {
-  //       Y = `${Math.abs(+Y)}`;
-  //     } else {
-  //       Y = Y;
-  //     }
-  //     display.textContent = Y;
-  //   }
-}
+let X = "0";
+let Y = "";
+let OPERATOR = "";
 
 const display = document.querySelector(".display");
+const clearButton = document.querySelector("button.clear");
+clearButton.addEventListener("click", () => {
+  init();
+});
+
+function prettifyNumber(n) {
+  const parts = n.split(".");
+  const integer = parts[0].split(" ").join("").split("").reverse().join("");
+  const decimals = parts[1];
+  let prettyInteger = "";
+  for (let i = 0; i < integer.length; i += 3) {
+    const k = integer
+      .slice(i, i + 3)
+      .split("")
+      .reverse()
+      .join("");
+    prettyInteger = k + " " + prettyInteger;
+  }
+  if (decimals) {
+    return prettyInteger.trim() + "." + decimals;
+  } else {
+    return prettyInteger.trim();
+  }
+}
 
 const digits = document.querySelectorAll(".digit");
 digits.forEach((digit) => {
-  digit.addEventListener("click", () => {
-    const value = digit.textContent;
+  digit.addEventListener("click", (e) => {
+    const input = e.target.textContent;
     if (!OPERATOR) {
-      if (showingResults) {
-        X = value;
-        showingResults = false;
+      // sets first number (X)
+      if (input === "0" && X === "0") {
+        return;
+      }
+      if (X === "0") {
+        X = prettifyNumber(input);
       } else {
-        if (X === "0") {
-          X = value;
-        } else {
-          X = X ? X + value : value;
-        }
+        X = prettifyNumber(X + input);
       }
       display.textContent = X;
     } else {
-      if (Y === "0") {
-        Y = value;
-      } else {
-        Y = Y ? Y + value : value;
-      }
-      display.textContent = Y;
+      // sets second number (Y)
     }
   });
-});
-
-const operators = document.querySelectorAll(".operator");
-operators.forEach((operator) => {
-  operator.addEventListener("click", () => {
-    const value = operator.textContent;
-    if (X && !Y) {
-      OPERATOR = value;
-    }
-  });
-});
-
-const funcs = document.querySelectorAll(".func");
-funcs.forEach((func) => {
-  func.addEventListener("click", () => {
-    const value = func.textContent;
-    if (value === "+/-") {
-      negativeToggle();
-    } else if (value === "%") {
-      percent();
-    }
-  });
-});
-
-const clearButton = document.querySelector(".clear");
-clearButton.addEventListener("click", () => {
-  clear();
-});
-
-const equalsButton = document.querySelector(".equals");
-equalsButton.addEventListener("click", () => {
-  if (X && OPERATOR && Y) {
-    operate(display);
-    showingResults = true;
-  }
 });
 
 function init() {
-  clear();
+  X = "0";
+  //   X = prettifyNumber("4561.5678");
+  Y = "";
+  OPERATOR = "";
+  display.textContent = X;
 }
 
 init();

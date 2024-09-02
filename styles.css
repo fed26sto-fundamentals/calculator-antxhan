@@ -1,4 +1,75 @@
+:root {
+  /* SIZES */
+  /* --calculator-width: min(430px, 100%); */
+  /* --calculator-height: min(calc(var(--calculator-width) * 1.67), 100%); */
+  /* --button-gap: 1rem; */
+
+  /* COLORS */
+  --clr-neutral-000: #fff;
+  --clr-neutral-500: #a5a5a5;
+  --clr-neutral-300: #333333;
+  --clr-neutral-900: #000;
+  --clr-primary: #f3a23c;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 1px solid white;
+}
+
+body {
+  background-color: black;
+  font-family: Helvetica, Arial, sans-serif;
+  color: var(--clr-neutral-000);
+  font-size: 2.5rem;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  height: 100svh;
+}
+
+.calculator {
+  width: 360px;
+}
+
 .display {
-  background-color: lightgray;
-  height: 24px;
+  text-align: right;
+  /* word-wrap: break-word; */
+  /* white-space: wrap; */
+  /* text-wrap: wrap; */
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+button {
+  border: none;
+  background-color: var(--clr-neutral-300);
+  width: 2rem;
+  aspect-ratio: 1;
+  color: inherit;
+  &:active {
+    background-color: var(--clr-neutral-000) !important;
+  }
+}
+
+button.func,
+button.clear,
+button.backspace {
+  background-color: var(--clr-neutral-500);
+  color: var(--clr-neutral-900);
+}
+
+button.operator,
+button.equals {
+  background-color: var(--clr-primary);
 }
