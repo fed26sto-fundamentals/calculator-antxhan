@@ -33,7 +33,29 @@ function prettifyNumber(n) {
   }
 }
 
-function toggleNegative(n) {}
+function toggleNegative(n) {
+  function negativeToggle() {
+    if (!OPERATOR) {
+      if (Math.sign(+X) === 1) {
+        X = `${-Math.abs(+X)}`;
+      } else if (Math.sign(+X) === -1) {
+        X = `${Math.abs(+X)}`;
+      } else {
+        X = X;
+      }
+      display.textContent = X;
+    } else {
+      if (Math.sign(+Y) === 1) {
+        Y = `${-Math.abs(+Y)}`;
+      } else if (Math.sign(+Y) === -1) {
+        Y = `${Math.abs(+Y)}`;
+      } else {
+        Y = Y;
+      }
+      display.textContent = Y;
+    }
+  }
+}
 
 const digits = document.querySelectorAll(".digit");
 digits.forEach((digit) => {
