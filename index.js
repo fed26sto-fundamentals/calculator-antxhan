@@ -4,7 +4,8 @@ let OPERATOR = "";
 let LAST_ENTERED_VALUE_TYPE = "";
 let CURRENT_OPERAND = "L";
 let NO_AUTO_EQUAL = false;
-const DECIMAL_LIMIT = 7;
+const DECIMAL_LIMIT = 8; // change to make sure it doesn't overflow?
+const DIGIT_LIMIT = 9;
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
@@ -16,10 +17,22 @@ function handleDigit(button) {
     NO_AUTO_EQUAL = true;
   }
   if (CURRENT_OPERAND === "L") {
-    LEFT_OPERAND = LEFT_OPERAND !== "0" ? LEFT_OPERAND + digit : digit;
+    if (LEFT_OPERAND === "0") {
+      LEFT_OPERAND = digit;
+    } else if (LEFT_OPERAND === "-0") {
+      LEFT_OPERAND = "-" + digit;
+    } else {
+      LEFT_OPERAND = LEFT_OPERAND + digit;
+    }
     updateDisplay(LEFT_OPERAND);
   } else {
-    RIGHT_OPERAND = RIGHT_OPERAND !== "0" ? RIGHT_OPERAND + digit : digit;
+    if (RIGHT_OPERAND === "0") {
+      RIGHT_OPERAND = digit;
+    } else if (RIGHT_OPERAND === "-0") {
+      RIGHT_OPERAND = "-" + digit;
+    } else {
+      RIGHT_OPERAND = RIGHT_OPERAND + digit;
+    }
     updateDisplay(RIGHT_OPERAND);
   }
   LAST_ENTERED_VALUE_TYPE = "digit";
@@ -44,39 +57,68 @@ function handleClear() {
 }
 
 function displayError(message = "Error") {
-  //   LAST_ENTERED_VALUE_TYPE = "equals";
   LEFT_OPERAND = "0";
   DISPLAY.textContent = message;
+}
+
+function handlePercentage() {
+  if (CURRENT_OPERAND === "L" && LEFT_OPERAND !== "0") {
+    const operation = roundTo(+LEFT_OPERAND / 100).toString();
+    if (operation === "0") {
+      displayError();
+    } else {
+      LEFT_OPERAND = operation;
+      updateDisplay(LEFT_OPERAND);
+    }
+  } else if (CURRENT_OPERAND === "R" && LEFT_OPERAND !== "0") {
+    const operation = roundTo(+RIGHT_OPERAND / 100).toString();
+    if (operation === "0") {
+      displayError();
+    } else {
+      RIGHT_OPERAND = operation;
+      updateDisplay(RIGHT_OPERAND);
+    }
+  }
+}
+
+function handleNegativeToggle() {
+  if (CURRENT_OPERAND === "L") {
+    const value = Math.sign(+LEFT_OPERAND);
+    if (value === 1) {
+      LEFT_OPERAND = (-Math.abs(+LEFT_OPERAND)).toString();
+    } else if (value === -1) {
+      LEFT_OPERAND = Math.abs(+LEFT_OPERAND).toString();
+    } else if (value === 0) {
+      if (LEFT_OPERAND.split("")[0] === "-") {
+        LEFT_OPERAND = "0";
+      } else {
+        LEFT_OPERAND = "-0";
+      }
+    }
+    updateDisplay(LEFT_OPERAND);
+  } else if (CURRENT_OPERAND === "R") {
+    const value = Math.sign(+RIGHT_OPERAND);
+    if (value === 1) {
+      RIGHT_OPERAND = (-Math.abs(+RIGHT_OPERAND)).toString();
+    } else if (value === -1) {
+      RIGHT_OPERAND = Math.abs(+RIGHT_OPERAND).toString();
+    } else if (value === 0) {
+      if (RIGHT_OPERAND.split("")[0] === "-") {
+        RIGHT_OPERAND = "0";
+      } else {
+        RIGHT_OPERAND = "-0";
+      }
+    }
+    updateDisplay(RIGHT_OPERAND);
+  }
 }
 
 function handleFunc(button) {
   const value = button.textContent;
   if (value === "+/-") {
-    if (CURRENT_OPERAND === "L") {
-      // check if operand is pos or neg
-      // LEFT_OPERAND =
-    } else if (CURRENT_OPERAND === "R") {
-      // check if operand is pos or neg
-      // RIGHT_OPERAND =
-    }
+    handleNegativeToggle();
   } else if (value === "%") {
-    if (CURRENT_OPERAND === "L" && LEFT_OPERAND !== "0") {
-      const operation = roundTo(+LEFT_OPERAND / 100).toString();
-      if (operation === "0") {
-        displayError();
-      } else {
-        LEFT_OPERAND = operation;
-        updateDisplay(LEFT_OPERAND);
-      }
-    } else if (CURRENT_OPERAND === "R" && LEFT_OPERAND !== "0") {
-      const operation = roundTo(+RIGHT_OPERAND / 100).toString();
-      if (operation === "0") {
-        displayError();
-      } else {
-        RIGHT_OPERAND = operation;
-        updateDisplay(RIGHT_OPERAND);
-      }
-    }
+    handlePercentage();
   }
 }
 

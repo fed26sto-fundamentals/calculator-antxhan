@@ -8,3 +8,7 @@
 - [ ] feat: keyboard support.
 - [ ] feat: = using the current number as second number also and making operation.
 - [ ] style: all of it.
+
+bugs
+
+- [ ] fix: can't divide forever, it stops. Should be an error message.
