@@ -3,12 +3,17 @@ let RIGHT_OPERAND = "";
 let OPERATOR = "";
 let LAST_ENTERED_VALUE_TYPE = "";
 let CURRENT_OPERAND = "L";
+let NO_AUTO_EQUAL = false;
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 
 function handleDigit(button) {
   const digit = button.textContent;
+  if (LAST_ENTERED_VALUE_TYPE === "equals") {
+    LEFT_OPERAND = "";
+    NO_AUTO_EQUAL = true;
+  }
   if (CURRENT_OPERAND === "L") {
     LEFT_OPERAND = LEFT_OPERAND !== "0" ? LEFT_OPERAND + digit : digit;
     updateDisplay(LEFT_OPERAND);
@@ -20,7 +25,7 @@ function handleDigit(button) {
 }
 
 function handleOperator(button) {
-  if (LAST_ENTERED_VALUE_TYPE === "digit" && OPERATOR) {
+  if (LAST_ENTERED_VALUE_TYPE === "digit" && OPERATOR && !NO_AUTO_EQUAL) {
     handleEquals();
   }
   OPERATOR = button.textContent;
@@ -68,6 +73,7 @@ function handleEquals() {
       break;
     }
   }
+  CURRENT_OPERAND = "L";
   LAST_ENTERED_VALUE_TYPE = "equals";
 }
 
@@ -101,6 +107,7 @@ function init() {
   CURRENT_OPERAND = "L";
   OPERATOR = "";
   LAST_ENTERED_VALUE_TYPE = "";
+  NO_AUTO_EQUAL = false;
   DISPLAY.textContent = LEFT_OPERAND;
 }
 
