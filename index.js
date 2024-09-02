@@ -48,7 +48,23 @@ function handleOperator(button) {
   LAST_ENTERED_VALUE_TYPE = "operator";
 }
 
-function handleDecimal() {}
+function handleDecimal() {
+  if (CURRENT_OPERAND === "L") {
+    if (!LEFT_OPERAND) {
+      LEFT_OPERAND = "0.";
+    } else if (!LEFT_OPERAND.includes(".")) {
+      LEFT_OPERAND = LEFT_OPERAND + ".";
+    }
+    updateDisplay(LEFT_OPERAND);
+  } else {
+    if (!RIGHT_OPERAND) {
+      RIGHT_OPERAND = "0.";
+    } else if (!RIGHT_OPERAND.includes(".")) {
+      RIGHT_OPERAND = RIGHT_OPERAND + ".";
+    }
+    updateDisplay(RIGHT_OPERAND);
+  }
+}
 
 function handleBackspace() {}
 
@@ -143,7 +159,7 @@ function handleEquals() {
       break;
     }
     case "/": {
-      if (RIGHT_OPERAND === "0") {
+      if (+RIGHT_OPERAND === 0 || +RIGHT_OPERAND === -0) {
         displayError();
       } else {
         operate(x / y);
@@ -168,8 +184,11 @@ function prettifyNumber(n) {
       .join("");
     prettyInteger = k + " " + prettyInteger;
   }
+
   if (decimals) {
     return prettyInteger.trim() + "." + decimals;
+  } else if (n.includes(".")) {
+    return prettyInteger.trim() + ".";
   } else {
     return prettyInteger.trim();
   }

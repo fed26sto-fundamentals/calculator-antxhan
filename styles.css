@@ -62,7 +62,8 @@ button {
   }
 }
 
-button.func,
+button.percent,
+button.negative,
 button.clear,
 button.backspace {
   background-color: var(--clr-neutral-500);
