@@ -66,7 +66,27 @@ function handleDecimal() {
   }
 }
 
-function handleBackspace() {}
+function handleBackspace() {
+  if (CURRENT_OPERAND === "L") {
+    if (LEFT_OPERAND.length === 2 && LEFT_OPERAND.split("")[0] === "-") {
+      LEFT_OPERAND = "0";
+    } else if (LEFT_OPERAND.length > 1) {
+      LEFT_OPERAND = LEFT_OPERAND.slice(0, LEFT_OPERAND.length - 1);
+    } else {
+      LEFT_OPERAND = "0";
+    }
+    updateDisplay(LEFT_OPERAND);
+  } else {
+    if (RIGHT_OPERAND.length === 2 && RIGHT_OPERAND.split("")[0] === "-") {
+      RIGHT_OPERAND = "0";
+    } else if (RIGHT_OPERAND.length > 1) {
+      RIGHT_OPERAND = RIGHT_OPERAND.slice(0, RIGHT_OPERAND.length - 1);
+    } else {
+      RIGHT_OPERAND = "0";
+    }
+    updateDisplay(RIGHT_OPERAND);
+  }
+}
 
 function handleClear() {
   init();
