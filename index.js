@@ -1,47 +1,32 @@
 let LEFT_OPERAND = "0";
-let OPERATOR = "";
 let RIGHT_OPERAND = "";
-let CURRENT_OPERAND = "L"; // L or R
-let RESULT = "";
+let OPERATOR = "";
+let LAST_ENTERED_VALUE_TYPE = "";
+let CURRENT_OPERAND = "L";
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 
-function handleOperand(operand, digit) {
-  let newOperand = "";
-  if (operand === "0" || !operand) {
-    newOperand = digit;
-  } else {
-    newOperand = operand + digit;
-  }
-  updateDisplay(newOperand);
-  return newOperand;
-}
-
 function handleDigit(button) {
-  console.log(LEFT_OPERAND, RESULT);
-  console.log("handleDigit");
   const digit = button.textContent;
-  if (RESULT === LEFT_OPERAND) {
-    LEFT_OPERAND = "";
-  }
   if (CURRENT_OPERAND === "L") {
-    LEFT_OPERAND = handleOperand(LEFT_OPERAND, digit);
+    LEFT_OPERAND = LEFT_OPERAND !== "0" ? LEFT_OPERAND + digit : digit;
+    updateDisplay(LEFT_OPERAND);
   } else {
-    RIGHT_OPERAND = handleOperand(RIGHT_OPERAND, digit);
+    RIGHT_OPERAND = RIGHT_OPERAND !== "0" ? RIGHT_OPERAND + digit : digit;
+    updateDisplay(RIGHT_OPERAND);
   }
+  LAST_ENTERED_VALUE_TYPE = "digit";
 }
 
 function handleOperator(button) {
-  console.log("handleOperator");
+  if (LAST_ENTERED_VALUE_TYPE === "digit" && OPERATOR) {
+    handleEquals();
+  }
   OPERATOR = button.textContent;
-  //   if (LEFT_OPERAND && RIGHT_OPERAND) {
-  //     handleEquals();
-  //   }
-  //   if (RIGHT_OPERAND) {
-  //     RIGHT_OPERAND = "";
-  //   }
   CURRENT_OPERAND = "R";
+  RIGHT_OPERAND = "";
+  LAST_ENTERED_VALUE_TYPE = "operator";
 }
 
 function handleDecimal() {}
@@ -55,15 +40,11 @@ function handleClear() {
 function handleFunc() {}
 
 function operate(operation) {
-  const operationString = operation.toString();
-  LEFT_OPERAND = operationString;
-  RESULT = operationString;
+  LEFT_OPERAND = operation.toString();
+  updateDisplay(LEFT_OPERAND);
 }
 
 function handleEquals() {
-  //   console.log("handleEquals");
-  //   console.log(LEFT_OPERAND, OPERATOR, RIGHT_OPERAND);
-  CURRENT_OPERAND = "L";
   if (!RIGHT_OPERAND) {
     RIGHT_OPERAND = LEFT_OPERAND;
   }
@@ -87,7 +68,7 @@ function handleEquals() {
       break;
     }
   }
-  updateDisplay();
+  LAST_ENTERED_VALUE_TYPE = "equals";
 }
 
 function prettifyNumber(n) {
@@ -110,15 +91,16 @@ function prettifyNumber(n) {
   }
 }
 
-function updateDisplay(operand = LEFT_OPERAND) {
-  console.log("updateDisplay:", operand);
+function updateDisplay(operand) {
   DISPLAY.textContent = prettifyNumber(operand);
 }
 
 function init() {
   LEFT_OPERAND = "0";
   RIGHT_OPERAND = "";
+  CURRENT_OPERAND = "L";
   OPERATOR = "";
+  LAST_ENTERED_VALUE_TYPE = "";
   DISPLAY.textContent = LEFT_OPERAND;
 }
 
@@ -127,10 +109,6 @@ init();
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
     const className = e.target.className;
-    // console.log("LEFT_OPERAND:", LEFT_OPERAND);
-    // console.log("RIGHT_OPERAND:", RIGHT_OPERAND);
-    // console.log("OPERATIR:", OPERATOR);
-    // console.log("=======================");
     switch (className) {
       case "digit": {
         handleDigit(e.target);
@@ -161,8 +139,5 @@ BUTTONS.forEach((button) => {
         break;
       }
     }
-    // if (className === "digit") {
-    //   handleDigit(e.target);
-    // } else if (className === "operator") {
   });
 });
