@@ -113,15 +113,6 @@ function handleNegativeToggle() {
   }
 }
 
-function handleFunc(button) {
-  const value = button.textContent;
-  if (value === "+/-") {
-    handleNegativeToggle();
-  } else if (value === "%") {
-    handlePercentage();
-  }
-}
-
 function roundTo(num) {
   const factor = Math.pow(10, DECIMAL_LIMIT);
   return Math.round(num * factor) / factor;
@@ -224,8 +215,12 @@ BUTTONS.forEach((button) => {
         handleClear();
         break;
       }
-      case "func": {
-        handleFunc(e.target);
+      case "percent": {
+        handlePercentage(e.target);
+        break;
+      }
+      case "negative": {
+        handleNegativeToggle(e.target);
         break;
       }
       case "equals": {
