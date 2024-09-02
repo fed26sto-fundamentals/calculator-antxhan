@@ -4,6 +4,7 @@ let OPERATOR = "";
 let LAST_ENTERED_VALUE_TYPE = "";
 let CURRENT_OPERAND = "L";
 let NO_AUTO_EQUAL = false;
+const DECIMAL_LIMIT = 7;
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
@@ -42,10 +43,50 @@ function handleClear() {
   init();
 }
 
-function handleFunc() {}
+function displayError(message = "Error") {
+  //   LAST_ENTERED_VALUE_TYPE = "equals";
+  LEFT_OPERAND = "0";
+  DISPLAY.textContent = message;
+}
+
+function handleFunc(button) {
+  const value = button.textContent;
+  if (value === "+/-") {
+    if (CURRENT_OPERAND === "L") {
+      // check if operand is pos or neg
+      // LEFT_OPERAND =
+    } else if (CURRENT_OPERAND === "R") {
+      // check if operand is pos or neg
+      // RIGHT_OPERAND =
+    }
+  } else if (value === "%") {
+    if (CURRENT_OPERAND === "L" && LEFT_OPERAND !== "0") {
+      const operation = roundTo(+LEFT_OPERAND / 100).toString();
+      if (operation === "0") {
+        displayError();
+      } else {
+        LEFT_OPERAND = operation;
+        updateDisplay(LEFT_OPERAND);
+      }
+    } else if (CURRENT_OPERAND === "R" && LEFT_OPERAND !== "0") {
+      const operation = roundTo(+RIGHT_OPERAND / 100).toString();
+      if (operation === "0") {
+        displayError();
+      } else {
+        RIGHT_OPERAND = operation;
+        updateDisplay(RIGHT_OPERAND);
+      }
+    }
+  }
+}
+
+function roundTo(num) {
+  const factor = Math.pow(10, DECIMAL_LIMIT);
+  return Math.round(num * factor) / factor;
+}
 
 function operate(operation) {
-  LEFT_OPERAND = operation.toString();
+  LEFT_OPERAND = roundTo(operation).toString();
   updateDisplay(LEFT_OPERAND);
 }
 
@@ -69,7 +110,11 @@ function handleEquals() {
       break;
     }
     case "/": {
-      operate(x / y);
+      if (RIGHT_OPERAND === "0") {
+        displayError();
+      } else {
+        operate(x / y);
+      }
       break;
     }
   }
