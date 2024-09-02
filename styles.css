@@ -40,9 +40,6 @@ main {
 
 .display {
   text-align: right;
-  /* word-wrap: break-word; */
-  /* white-space: wrap; */
-  /* text-wrap: wrap; */
 }
 
 .buttons {
@@ -53,8 +50,9 @@ main {
 
 button {
   border: none;
+  border-radius: 100vw;
   background-color: var(--clr-neutral-300);
-  width: 2rem;
+  width: 3rem;
   aspect-ratio: 1;
   color: inherit;
   &:active {

@@ -269,3 +269,24 @@ BUTTONS.forEach((button) => {
     }
   });
 });
+
+document.addEventListener("keydown", (e) => {
+  const equalButton = document.querySelector("button.equals");
+  const backspaceButton = document.querySelector("button.backspace");
+  const negativeButton = document.querySelector("button.negative");
+  if (e.key === "Enter") {
+    equalButton.click();
+  }
+  if (e.key === "Backspace") {
+    backspaceButton.click();
+  }
+  if (e.key === "_") {
+    negativeButton.click();
+  }
+  BUTTONS.forEach((button) => {
+    if (e.key === button.textContent.toLowerCase()) {
+      button.click();
+    }
+  });
+  console.log(e.key);
+});
