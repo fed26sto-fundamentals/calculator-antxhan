@@ -43,6 +43,7 @@ function handleOperator(button) {
     handleEquals();
   }
   OPERATOR = button.value;
+  button.ariaCurrent = true;
   CURRENT_OPERAND = "R";
   RIGHT_OPERAND = "";
   LAST_ENTERED_VALUE_TYPE = "operator";
@@ -155,9 +156,13 @@ function roundTo(num) {
 }
 
 function operate(operation) {
-  const res = roundTo(operation).toString();
-  LEFT_OPERAND = res;
-  updateDisplay(LEFT_OPERAND);
+  const res = roundTo(operation);
+  if (res === Infinity) {
+    displayError();
+  } else {
+    LEFT_OPERAND = res.toString();
+    updateDisplay(LEFT_OPERAND);
+  }
 }
 
 function handleEquals() {
@@ -231,6 +236,13 @@ function init() {
 
 init();
 
+function resetOperatorsState() {
+  const operators = document.querySelectorAll(".operator");
+  operators.forEach((operator) => {
+    operator.ariaCurrent = false;
+  });
+}
+
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
     let btn = e.target;
@@ -240,6 +252,7 @@ BUTTONS.forEach((button) => {
       btn = e.target.parentNode;
     }
     const className = btn.className;
+    resetOperatorsState();
     switch (className) {
       case "digit": {
         handleDigit(btn);

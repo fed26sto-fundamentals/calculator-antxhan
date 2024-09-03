@@ -3,7 +3,7 @@
   --calculator-width: min(430px, 100%);
   --button-gap: 1rem;
   --fs-normal: 2.5rem;
-  /* --calculator-height: min(calc(var(--calculator-width) * 1.67), 100%); */
+  --fs-large: 5rem;
 
   /* COLORS */
   --clr-neutral-000: #fff;
@@ -23,10 +23,8 @@
 }
 
 body {
-  background-color: black;
-  /* font-family: Helvetica, Arial, sans-serif; */
-  /* font-family: Helvetica Neue; */
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--clr-neutral-900);
+  font-family: Helvetica, Arial, sans-serif;
   color: var(--clr-neutral-000);
   font-size: var(--fs-normal);
 }
@@ -34,25 +32,60 @@ body {
 main {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100svh;
 }
 
 .calculator {
   width: var(--calculator-width);
-  outline: 1px solid red;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 900px;
 }
 
 .display {
   text-align: right;
-  outline: 1px solid green;
+  flex-grow: 1;
+  padding-inline: 2rem;
+  padding-block-start: 1rem;
+  font-size: var(--fs-large);
+  font-weight: 100;
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  outline: 1px solid orange;
   padding: var(--button-gap);
   gap: var(--button-gap);
+}
+
+button::before {
+  content: "";
+  background-color: var(--clr-neutral-000);
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 100vw;
+  display: block;
+  color: white;
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  transition: 100ms;
+}
+
+button:not([aria-current="true"]):hover {
+  &::before {
+    opacity: 0.1;
+  }
+}
+
+button[aria-current="true"] {
+  background-color: var(--clr-neutral-000) !important;
+  & svg {
+    color: var(--clr-primary) !important;
+  }
+  transition: 100ms;
 }
 
 svg {
@@ -61,6 +94,8 @@ svg {
 
 button {
   border: none;
+  z-index: 10;
+  position: relative;
   border-radius: 100vw;
   background-color: var(--clr-neutral-300);
   width: calc(((var(--calculator-width) / 4) - calc(var(--button-gap) * 0.75)));
@@ -70,6 +105,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 200ms !important;
   & svg {
     width: var(--fs-normal);
     height: var(--fs-normal);
@@ -79,6 +115,7 @@ button {
   }
   &:active {
     background-color: var(--clr-neutral-000) !important;
+    transition: background-color 0ms !important;
   }
 }
 
@@ -97,4 +134,10 @@ button.backspace {
 button.operator,
 button.equals {
   background-color: var(--clr-primary);
+}
+
+@media (min-width: 431px) {
+  .calculator {
+    border: 1px solid var(--clr-neutral-500);
+  }
 }
