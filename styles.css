@@ -1,8 +1,8 @@
 :root {
   /* SIZES */
-  /* --calculator-width: min(430px, 100%); */
+  --calculator-width: min(430px, 100%);
+  --button-gap: 1rem;
   /* --calculator-height: min(calc(var(--calculator-width) * 1.67), 100%); */
-  /* --button-gap: 1rem; */
 
   /* COLORS */
   --clr-neutral-000: #fff;
@@ -18,14 +18,14 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  outline: 1px solid white;
+  /* outline: 1px solid white; */
 }
 
 body {
   background-color: black;
   font-family: Helvetica, Arial, sans-serif;
   color: var(--clr-neutral-000);
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 main {
@@ -35,26 +35,37 @@ main {
 }
 
 .calculator {
-  width: 360px;
+  width: var(--calculator-width);
+  outline: 1px solid red;
 }
 
 .display {
   text-align: right;
+  outline: 1px solid green;
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  outline: 1px solid orange;
+  padding: var(--button-gap);
+  gap: var(--button-gap);
 }
 
 button {
   border: none;
   border-radius: 100vw;
   background-color: var(--clr-neutral-300);
-  width: 3rem;
+  width: calc(((var(--calculator-width) / 4) - calc(var(--button-gap) * 0.75)));
   aspect-ratio: 1;
   color: inherit;
+  font-size: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    cursor: pointer;
+  }
   &:active {
     background-color: var(--clr-neutral-000) !important;
   }

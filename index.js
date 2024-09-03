@@ -155,7 +155,8 @@ function roundTo(num) {
 }
 
 function operate(operation) {
-  LEFT_OPERAND = roundTo(operation).toString();
+  const res = roundTo(operation).toString();
+  LEFT_OPERAND = res;
   updateDisplay(LEFT_OPERAND);
 }
 
