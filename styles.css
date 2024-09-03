@@ -74,6 +74,10 @@ button::before {
   transition: 100ms;
 }
 
+button:active::before {
+  opacity: 0.5 !important;
+}
+
 button:not([aria-current="true"]):hover {
   &::before {
     opacity: 0.1;
@@ -105,7 +109,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 200ms !important;
+  /* transition: background-color 200ms !important; */
   & svg {
     width: var(--fs-normal);
     height: var(--fs-normal);
@@ -114,8 +118,8 @@ button {
     cursor: pointer;
   }
   &:active {
-    background-color: var(--clr-neutral-000) !important;
-    transition: background-color 0ms !important;
+    /* background-color: var(--clr-neutral-000) !important; */
+    /* transition: background-color 0ms !important; */
   }
 }
 
