@@ -158,6 +158,7 @@ function roundTo(num) {
 function operate(operation) {
   const res = roundTo(operation);
   if (res === Infinity) {
+    console.log("Infinity");
     displayError();
   } else {
     LEFT_OPERAND = res.toString();
@@ -186,6 +187,7 @@ function handleEquals() {
     }
     case "/": {
       if (+RIGHT_OPERAND === 0 || +RIGHT_OPERAND === -0) {
+        // Zero division error
         displayError();
       } else {
         operate(x / y);
