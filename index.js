@@ -210,7 +210,11 @@ function prettifyNumber(n) {
       .split("")
       .reverse()
       .join("");
-    prettyInteger = k + " " + prettyInteger;
+    if (k === "-") {
+      prettyInteger = k + prettyInteger;
+    } else {
+      prettyInteger = k + " " + prettyInteger;
+    }
   }
 
   if (decimals) {
@@ -223,7 +227,19 @@ function prettifyNumber(n) {
 }
 
 function updateDisplay(operand) {
+  // const textLength = DISPLAY.textContent.length;
+  // DISPLAY.style.setProperty("--char-count", textLength);
+
+  // set display
   DISPLAY.textContent = prettifyNumber(operand);
+  const textLength = DISPLAY.textContent.length;
+  DISPLAY.style.setProperty("--char-count", textLength);
+  console.log(textLength);
+}
+
+function testing() {
+  LEFT_OPERAND = "123456789";
+  updateDisplay(LEFT_OPERAND);
 }
 
 function init() {
@@ -233,10 +249,11 @@ function init() {
   OPERATOR = "";
   LAST_ENTERED_VALUE_TYPE = "";
   NO_AUTO_EQUAL = false;
-  DISPLAY.textContent = LEFT_OPERAND;
+  updateDisplay(LEFT_OPERAND);
 }
 
 init();
+// testing();
 
 function resetOperatorsState() {
   const operators = document.querySelectorAll(".operator");

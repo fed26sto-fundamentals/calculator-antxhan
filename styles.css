@@ -46,11 +46,20 @@ main {
 
 .display {
   text-align: right;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   padding-inline: 2rem;
   padding-block-start: 1rem;
-  font-size: var(--fs-large);
+  align-content: center;
+  height: 8rem;
+  /* font-size: calc(var(--fs-large) - 0.1rem * var(--char-count)); */
+  font-size: clamp(var(--fs-normal), 10vw, var(--fs-large));
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflow */
+  width: 100%;
   font-weight: 100;
+  /* max-width: 12ch; */
+  /* max-width: 100%; */
+  /* background: red; */
 }
 
 .buttons {
