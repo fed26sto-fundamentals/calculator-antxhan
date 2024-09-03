@@ -7,4 +7,4 @@
 - [ ] fix(style): css active not activating on buttons when using keyboard.
 - [ ] style: when operator is active, change background.
 - [ ] style: responsive display font-size
-- [ ] style: button hover effect
+- [ ] style: button active transition out timing.
