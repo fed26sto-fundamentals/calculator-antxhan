@@ -42,7 +42,7 @@ function handleOperator(button) {
   if (LAST_ENTERED_VALUE_TYPE === "digit" && OPERATOR && !NO_AUTO_EQUAL) {
     handleEquals();
   }
-  OPERATOR = button.textContent;
+  OPERATOR = button.value;
   CURRENT_OPERAND = "R";
   RIGHT_OPERAND = "";
   LAST_ENTERED_VALUE_TYPE = "operator";
@@ -233,22 +233,28 @@ init();
 
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
-    const className = e.target.className;
+    let btn = e.target;
+    if (e.target.tagName === "path") {
+      btn = e.target.parentNode.parentNode;
+    } else if (e.target.tagName === "svg") {
+      btn = e.target.parentNode;
+    }
+    const className = btn.className;
     switch (className) {
       case "digit": {
-        handleDigit(e.target);
+        handleDigit(btn);
         break;
       }
       case "operator": {
-        handleOperator(e.target);
+        handleOperator(btn);
         break;
       }
       case "decimal": {
-        handleDecimal(e.target);
+        handleDecimal();
         break;
       }
       case "backspace": {
-        handleBackspace(e.target);
+        handleBackspace();
         break;
       }
       case "clear": {
@@ -256,15 +262,15 @@ BUTTONS.forEach((button) => {
         break;
       }
       case "percent": {
-        handlePercentage(e.target);
+        handlePercentage();
         break;
       }
       case "negative": {
-        handleNegativeToggle(e.target);
+        handleNegativeToggle();
         break;
       }
       case "equals": {
-        handleEquals(e.target);
+        handleEquals();
         break;
       }
     }

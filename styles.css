@@ -2,6 +2,7 @@
   /* SIZES */
   --calculator-width: min(430px, 100%);
   --button-gap: 1rem;
+  --fs-normal: 2.5rem;
   /* --calculator-height: min(calc(var(--calculator-width) * 1.67), 100%); */
 
   /* COLORS */
@@ -23,9 +24,11 @@
 
 body {
   background-color: black;
-  font-family: Helvetica, Arial, sans-serif;
+  /* font-family: Helvetica, Arial, sans-serif; */
+  /* font-family: Helvetica Neue; */
+  font-family: Arial, Helvetica, sans-serif;
   color: var(--clr-neutral-000);
-  font-size: 2rem;
+  font-size: var(--fs-normal);
 }
 
 main {
@@ -52,6 +55,10 @@ main {
   gap: var(--button-gap);
 }
 
+svg {
+  stroke-width: 2.25;
+}
+
 button {
   border: none;
   border-radius: 100vw;
@@ -63,12 +70,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  & svg {
+    width: var(--fs-normal);
+    height: var(--fs-normal);
+  }
   &:hover {
     cursor: pointer;
   }
   &:active {
     background-color: var(--clr-neutral-000) !important;
   }
+}
+
+button.backspace > svg {
+  margin-right: 0.33rem;
 }
 
 button.percent,
