@@ -36,6 +36,10 @@ BUTTONS.forEach((button) => {
         handleNegative();
         break;
       }
+      case "percent": {
+        handlePercent();
+        break;
+      }
       case "clear": {
         handleClear();
         break;
@@ -47,6 +51,11 @@ BUTTONS.forEach((button) => {
 });
 
 function handleDigit(digit) {
+  if (ERROR) {
+    handleClear();
+    LEFT_OPERAND = digit;
+    return;
+  }
   if (DISPLAYING_TOTAL) {
     LEFT_OPERAND = digit;
     DISPLAYING_TOTAL = false;
@@ -133,6 +142,39 @@ function handleNegative() {
   }
 }
 
+function handlePercent() {
+  if (ERROR) {
+    return;
+  }
+  if (DISPLAY_TOTAL) {
+    let operation = +LEFT_OPERAND / 100;
+    if (
+      (operation > 0 && operation < 1e-100) ||
+      (operation < 0 && operation > -1e-100)
+    ) {
+      ERROR = true;
+      console.log("Result has too many decimal places");
+      // DISPLAY_TOTAL = true;
+      // DISPLAYING_TOTAL = true;
+      return;
+    }
+    LEFT_OPERAND = operation.toString();
+  } else {
+    let operation = +RIGHT_OPERAND / 100;
+    if (
+      (operation > 0 && operation < 1e-100) ||
+      (operation < 0 && operation > -1e-100)
+    ) {
+      ERROR = true;
+      console.log("Result has too many decimal places");
+      DISPLAY_TOTAL = true;
+      // DISPLAYING_TOTAL = true;
+      return;
+    }
+    RIGHT_OPERAND = operation.toString();
+  }
+}
+
 // UTIL FUNCTIONS ----------------------------------------------
 
 function init() {
@@ -171,7 +213,7 @@ function initKeyboard() {
 function updateDisplay() {
   if (ERROR) {
     DISPLAY.textContent = "Error";
-    ERROR = false;
+    // ERROR = false;
     return;
   }
   if (DISPLAY_TOTAL === true) {
