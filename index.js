@@ -40,6 +40,10 @@ BUTTONS.forEach((button) => {
         handlePercent();
         break;
       }
+      case "backspace": {
+        handleBackspace();
+        break;
+      }
       case "clear": {
         handleClear();
         break;
@@ -175,6 +179,80 @@ function handlePercent() {
   }
 }
 
+function handleBackspace() {
+  if (DISPLAYING_TOTAL) {
+    console.log("can't backspace the result");
+    return;
+  }
+  if (DISPLAY_TOTAL) {
+    if (LEFT_OPERAND.slice(0, 1) === "-") {
+      if (LEFT_OPERAND === "-0") {
+        LEFT_OPERAND = "0";
+        return;
+      }
+      if (LEFT_OPERAND.length === 2) {
+        LEFT_OPERAND = "-0";
+      } else {
+        LEFT_OPERAND = LEFT_OPERAND.slice(0, LEFT_OPERAND.length - 1);
+      }
+    } else {
+      if (LEFT_OPERAND.length === 1) {
+        LEFT_OPERAND = "0";
+      } else {
+        LEFT_OPERAND = LEFT_OPERAND.slice(0, LEFT_OPERAND.length - 1);
+      }
+    }
+  } else {
+    if (!RIGHT_OPERAND) {
+      console.log("nothing to delete");
+      DISPLAY_TOTAL = true;
+      return;
+    }
+    if (RIGHT_OPERAND === "0") {
+      // make it highlight the selected operator button again
+      OPERATORS.forEach((button) => {
+        // console.log(button);
+        if (button.value === OPERATOR) {
+          button.setAttribute("aria-current", "true");
+        }
+      });
+      return;
+    }
+    if (RIGHT_OPERAND.slice(0, 1) === "-") {
+      if (RIGHT_OPERAND === "-0") {
+        RIGHT_OPERAND = "0";
+        // make it highlight the selected operator button again
+        OPERATORS.forEach((button) => {
+          // console.log(button);
+          if (button.value === OPERATOR) {
+            button.setAttribute("aria-current", "true");
+          }
+        });
+        return;
+      }
+      if (RIGHT_OPERAND.length === 2) {
+        RIGHT_OPERAND = "-0";
+      } else {
+        RIGHT_OPERAND = RIGHT_OPERAND.slice(0, RIGHT_OPERAND.length - 1);
+      }
+    } else {
+      if (RIGHT_OPERAND.length === 1) {
+        RIGHT_OPERAND = "0";
+
+        // make it highlight the selected operator button again
+        OPERATORS.forEach((button) => {
+          // console.log(button);
+          if (button.value === OPERATOR) {
+            button.setAttribute("aria-current", "true");
+          }
+        });
+      } else {
+        RIGHT_OPERAND = RIGHT_OPERAND.slice(0, RIGHT_OPERAND.length - 1);
+      }
+    }
+  }
+}
+
 // UTIL FUNCTIONS ----------------------------------------------
 
 function init() {
@@ -228,7 +306,14 @@ function enterDigit(digit, operand) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
-  operand = operand === "0" ? digit : operand + digit;
+  // operand = operand === "0" ? digit : operand + digit;
+  if (operand === "0") {
+    operand = digit;
+  } else if (operand === "-0") {
+    operand = "-" + digit;
+  } else {
+    operand = operand + digit;
+  }
   return operand;
 }
 
