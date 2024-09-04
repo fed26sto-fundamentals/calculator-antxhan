@@ -197,13 +197,10 @@ function resetOperatorsHighlight() {
 }
 
 function operate(operation) {
-  if (operation > 0 && operation < 1e-100) {
-    ERROR = true;
-    console.log("Result has too many decimal places");
-    return;
-  }
-
-  if (operation < 0 && operation > -1e-100) {
+  if (
+    (operation > 0 && operation < 1e-100) ||
+    (operation < 0 && operation > -1e-100)
+  ) {
     ERROR = true;
     console.log("Result has too many decimal places");
     return;
@@ -218,9 +215,10 @@ function operate(operation) {
   if (operation > 1e160) {
     ERROR = true;
     console.log("Result is too big");
-  } else {
-    LEFT_OPERAND = operation.toString();
+    return;
   }
+
+  LEFT_OPERAND = operation.toString();
 }
 
 // ON LOAD -------------------------------------------------------
