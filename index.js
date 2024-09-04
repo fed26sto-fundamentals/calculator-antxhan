@@ -1,9 +1,9 @@
 // STATE -------------------------------------------------------
 
-let LEFT_OPERAND = "0";
-let RIGHT_OPERAND = "";
-let CURRENT_OPERAND = "L";
-let OPERATOR = "";
+let LEFT_OPERAND;
+let RIGHT_OPERAND;
+let OPERATOR;
+let DISPLAY_TOTAL;
 
 // GLOBAL VARIABLES --------------------------------------------
 
@@ -22,7 +22,8 @@ BUTTONS.forEach((button) => {
       }
       case "operator": {
         handleOperator(e.target.value);
-        break;
+        return;
+        // break;
       }
       case "equals": {
         handleEquals();
@@ -34,42 +35,58 @@ BUTTONS.forEach((button) => {
       }
     }
     updateDisplay();
+    console.log(LEFT_OPERAND, OPERATOR, RIGHT_OPERAND);
   });
 });
 
 function handleDigit(digit) {
-  // Choosing current operand
-  operand = CURRENT_OPERAND === "L" ? LEFT_OPERAND : RIGHT_OPERAND;
-
-  // Enter digit into operand
-  if (operand.length >= MAX_DIGITS) {
-    console.log("Maximum amount of digits reached");
-    return;
-  }
-  operand = operand === "0" ? digit : operand + digit;
-
-  // Push to current operand
-  if (CURRENT_OPERAND === "L") {
-    LEFT_OPERAND = operand;
+  if (DISPLAY_TOTAL === true) {
+    if (RIGHT_OPERAND) {
+      console.log("There is a right operand already, so left operand is reset");
+      LEFT_OPERAND = digit;
+    } else {
+      LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
+    }
   } else {
-    RIGHT_OPERAND = operand;
+    RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
   }
-  // console.log("left operand:", LEFT_OPERAND);
-  // console.log("right operand:", RIGHT_OPERAND);
 }
 
 function handleOperator(operator) {
-  console.log(operator);
-  // Set to OPERATOR
   OPERATOR = operator;
+  RIGHT_OPERAND = "";
+  DISPLAY_TOTAL = false;
 }
 
-function handleEquals() {}
+function handleEquals() {
+  if (OPERATOR && !RIGHT_OPERAND) {
+    RIGHT_OPERAND = LEFT_OPERAND;
+  }
+  switch (OPERATOR) {
+    case "+": {
+      LEFT_OPERAND = (+LEFT_OPERAND + +RIGHT_OPERAND).toString();
+      break;
+    }
+    case "-": {
+      LEFT_OPERAND = (+LEFT_OPERAND - +RIGHT_OPERAND).toString();
+      break;
+    }
+    case "*": {
+      LEFT_OPERAND = (+LEFT_OPERAND * +RIGHT_OPERAND).toString();
+      break;
+    }
+    case "/": {
+      LEFT_OPERAND = (+LEFT_OPERAND / +RIGHT_OPERAND).toString();
+      break;
+    }
+  }
+  DISPLAY_TOTAL = true;
+}
 
 function handleClear() {
   LEFT_OPERAND = "0";
   RIGHT_OPERAND = "";
-  CURRENT_OPERAND = "L";
+  DISPLAY_TOTAL = true;
   OPERATOR = "";
 }
 
@@ -104,11 +121,20 @@ function initKeyboard() {
 }
 
 function updateDisplay() {
-  if (CURRENT_OPERAND === "L") {
+  if (DISPLAY_TOTAL === true) {
     DISPLAY.textContent = LEFT_OPERAND;
   } else {
     DISPLAY.textContent = RIGHT_OPERAND;
   }
+}
+
+function enterDigit(digit, operand) {
+  if (operand.length >= MAX_DIGITS) {
+    console.log("Maximum amount of digits reached");
+    return operand;
+  }
+  operand = operand === "0" ? digit : operand + digit;
+  return operand;
 }
 
 // ON LOAD -------------------------------------------------------
