@@ -77,15 +77,15 @@ function handleEquals() {
   }
   switch (OPERATOR) {
     case "+": {
-      LEFT_OPERAND = (+LEFT_OPERAND + +RIGHT_OPERAND).toString();
+      operate(+LEFT_OPERAND + +RIGHT_OPERAND);
       break;
     }
     case "-": {
-      LEFT_OPERAND = (+LEFT_OPERAND - +RIGHT_OPERAND).toString();
+      operate(+LEFT_OPERAND - +RIGHT_OPERAND);
       break;
     }
     case "*": {
-      LEFT_OPERAND = (+LEFT_OPERAND * +RIGHT_OPERAND).toString();
+      operate(+LEFT_OPERAND * +RIGHT_OPERAND);
       break;
     }
     case "/": {
@@ -93,7 +93,7 @@ function handleEquals() {
         ERROR = true;
         console.log("Zero division error");
       }
-      LEFT_OPERAND = (+LEFT_OPERAND / +RIGHT_OPERAND).toString();
+      operate(+LEFT_OPERAND / +RIGHT_OPERAND);
       break;
     }
   }
@@ -171,6 +171,15 @@ function resetOperatorsHighlight() {
   OPERATORS.forEach((operator) => {
     operator.setAttribute("aria-current", "false");
   });
+}
+
+function operate(operation) {
+  if (operation > 1e160 || operation < 1e-100) {
+    ERROR = true;
+    console.log("Result is too big or too small");
+  } else {
+    LEFT_OPERAND = operation.toString();
+  }
 }
 
 // ON LOAD -------------------------------------------------------
