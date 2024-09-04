@@ -5,13 +5,25 @@ let LAST_ENTERED_VALUE_TYPE = "";
 let CURRENT_OPERAND = "L";
 let NO_AUTO_EQUAL = false;
 const DECIMAL_LIMIT = 8; // change to make sure it doesn't overflow?
-const DIGIT_LIMIT = 9;
+// const DIGIT_LIMIT = 9;
+
+const DISPLAY_MAX_CHARACTERS = 12;
+
+// -123 456 789
+// 1,234568e9
+// -0,123456789
+// -1,234568e-9
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 
 function handleDigit(button) {
   const digit = button.textContent;
+  console.log(DISPLAY.textContent.length);
+  if (DISPLAY.textContent.length >= DISPLAY_MAX_CHARACTERS) {
+    console.log("LIMIT HIT");
+    return;
+  }
   if (LAST_ENTERED_VALUE_TYPE === "equals") {
     LEFT_OPERAND = "";
     NO_AUTO_EQUAL = true;
@@ -158,8 +170,10 @@ function roundTo(num) {
 function operate(operation) {
   const res = roundTo(operation);
   if (res === Infinity) {
-    console.log("Infinity");
+    console.log("HIT Infinity");
     displayError();
+    LEFT_OPERAND = Infinity;
+    RIGHT_OPERAND = Infinity;
   } else {
     LEFT_OPERAND = res.toString();
     updateDisplay(LEFT_OPERAND);
@@ -169,6 +183,12 @@ function operate(operation) {
 function handleEquals() {
   if (!RIGHT_OPERAND) {
     RIGHT_OPERAND = LEFT_OPERAND;
+  }
+  if (LEFT_OPERAND === Infinity || RIGHT_OPERAND === Infinity) {
+    displayError();
+    LEFT_OPERAND = Infinity;
+    RIGHT_OPERAND = Infinity;
+    return;
   }
   const x = +LEFT_OPERAND;
   const y = +RIGHT_OPERAND;
@@ -227,14 +247,28 @@ function prettifyNumber(n) {
 }
 
 function updateDisplay(operand) {
-  // const textLength = DISPLAY.textContent.length;
-  // DISPLAY.style.setProperty("--char-count", textLength);
+  console.log("operand length:", prettifyNumber(operand).length);
+  console.log(operand, +operand);
+  let prettifiedNumber = "";
+  if (+operand >= 1_000_000_000) {
+    console.log(+operand);
+    let shorterOperand = (+operand)
+      .toPrecision(DISPLAY_MAX_CHARACTERS)
+      .toString();
+    prettifiedNumber = prettifyNumber(shorterOperand);
+  } else {
+    prettifiedNumber = prettifyNumber(operand);
+  }
+  // if (prettifiedNumber.length > DISPLAY_MAX_CHARACTERS) {
+  //   const reformattedNumber = reformatNumber(prettifiedNumber);
+  //   return updateDisplay(reformattedNumber);
+  // }
 
   // set display
-  DISPLAY.textContent = prettifyNumber(operand);
+  DISPLAY.textContent = prettifiedNumber;
   const textLength = DISPLAY.textContent.length;
   DISPLAY.style.setProperty("--char-count", textLength);
-  console.log(textLength);
+  // console.log(textLength);
 }
 
 function testing() {
