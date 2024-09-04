@@ -48,14 +48,7 @@ function handleDigit(digit) {
     DISPLAYING_TOTAL = false;
   } else {
     if (DISPLAY_TOTAL) {
-      if (RIGHT_OPERAND) {
-        console.log(
-          "There is a right operand already, so left operand is reset"
-        );
-        LEFT_OPERAND = digit;
-      } else {
-        LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
-      }
+      LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
     } else {
       RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
     }
@@ -141,6 +134,11 @@ function initKeyboard() {
     }
     BUTTONS.forEach((button) => {
       if (e.key === button.textContent.toLowerCase()) {
+        button.click();
+      }
+    });
+    OPERATORS.forEach((button) => {
+      if (e.key === button.value.toLowerCase()) {
         button.click();
       }
     });

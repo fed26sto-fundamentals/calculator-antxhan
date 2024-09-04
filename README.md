@@ -10,4 +10,5 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [x] fix: when entering 5 = + = it should display 10.
 - [x] fix: when entering 111 = 222 it should display 222 (overwrite the 111).
 - [x] fix: when entering 555 = / 5 it displays 1, should be 111.
-- [ ] fix: randomly clicking operators without clicking digits and then equals displays NaN. It's a zero division error.
+- [x] fix: randomly clicking operators without clicking digits and then equals displays NaN. It's a zero division error.
+- [x] fix: resets the LEFT when i do 1 + 2 =, displays 3 as it should, then i press digit 5 it displays 5, then 6 it displays 6
