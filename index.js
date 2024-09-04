@@ -1,29 +1,31 @@
 // STATE -------------------------------------------------------
 
-let LEFT_OPERAND;
+let LEFT_OPERAND; // total
 let RIGHT_OPERAND;
 let OPERATOR;
 let DISPLAY_TOTAL;
+let DISPLAYING_TOTAL;
 
 // GLOBAL VARIABLES --------------------------------------------
 
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
+const OPERATORS = document.querySelectorAll(".operator");
 const MAX_DIGITS = 9;
 
 // BUTTON FUNCTIONS --------------------------------------------
 
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
+    resetOperatorsHighlight();
     switch (e.target.className) {
       case "digit": {
         handleDigit(e.target.value);
         break;
       }
       case "operator": {
-        handleOperator(e.target.value);
+        handleOperator(e.target);
         return;
-        // break;
       }
       case "equals": {
         handleEquals();
@@ -40,19 +42,31 @@ BUTTONS.forEach((button) => {
 });
 
 function handleDigit(digit) {
-  if (DISPLAY_TOTAL === true) {
-    if (RIGHT_OPERAND) {
-      console.log("There is a right operand already, so left operand is reset");
-      LEFT_OPERAND = digit;
-    } else {
-      LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
-    }
+  if (DISPLAYING_TOTAL) {
+    LEFT_OPERAND = digit;
+    DISPLAYING_TOTAL = false;
   } else {
-    RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
+    if (DISPLAY_TOTAL) {
+      if (RIGHT_OPERAND) {
+        console.log(
+          "There is a right operand already, so left operand is reset"
+        );
+        LEFT_OPERAND = digit;
+      } else {
+        LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
+      }
+    } else {
+      RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
+    }
   }
 }
 
-function handleOperator(operator) {
+function handleOperator(button) {
+  if (DISPLAYING_TOTAL) {
+    DISPLAYING_TOTAL = false;
+  }
+  button.setAttribute("aria-current", "true");
+  const operator = button.value;
   OPERATOR = operator;
   RIGHT_OPERAND = "";
   DISPLAY_TOTAL = false;
@@ -81,6 +95,7 @@ function handleEquals() {
     }
   }
   DISPLAY_TOTAL = true;
+  DISPLAYING_TOTAL = true;
 }
 
 function handleClear() {
@@ -88,6 +103,7 @@ function handleClear() {
   RIGHT_OPERAND = "";
   DISPLAY_TOTAL = true;
   OPERATOR = "";
+  DISPLAYING_TOTAL = false;
 }
 
 // UTIL FUNCTIONS ----------------------------------------------
@@ -135,6 +151,12 @@ function enterDigit(digit, operand) {
   }
   operand = operand === "0" ? digit : operand + digit;
   return operand;
+}
+
+function resetOperatorsHighlight() {
+  OPERATORS.forEach((operator) => {
+    operator.setAttribute("aria-current", "false");
+  });
 }
 
 // ON LOAD -------------------------------------------------------

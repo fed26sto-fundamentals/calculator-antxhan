@@ -112,7 +112,6 @@ button[aria-current="true"] {
   & svg {
     color: var(--clr-primary) !important;
   }
-  transition: 100ms;
 }
 
 svg {
