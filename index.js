@@ -5,6 +5,7 @@ let RIGHT_OPERAND;
 let OPERATOR;
 let DISPLAY_TOTAL;
 let DISPLAYING_TOTAL;
+let ERROR;
 
 // GLOBAL VARIABLES --------------------------------------------
 
@@ -73,6 +74,11 @@ function handleOperator(button) {
 }
 
 function handleEquals() {
+  if (+LEFT_OPERAND === Infinity || +RIGHT_OPERAND === Infinity) {
+    ERROR = true;
+    console.log("Doing math with infinity error");
+    return;
+  }
   if (OPERATOR && !RIGHT_OPERAND) {
     RIGHT_OPERAND = LEFT_OPERAND;
   }
@@ -90,6 +96,10 @@ function handleEquals() {
       break;
     }
     case "/": {
+      if (+RIGHT_OPERAND === 0) {
+        ERROR = true;
+        console.log("Zero division error");
+      }
       LEFT_OPERAND = (+LEFT_OPERAND / +RIGHT_OPERAND).toString();
       break;
     }
@@ -104,6 +114,7 @@ function handleClear() {
   DISPLAY_TOTAL = true;
   OPERATOR = "";
   DISPLAYING_TOTAL = false;
+  ERROR = false;
 }
 
 // UTIL FUNCTIONS ----------------------------------------------
@@ -137,6 +148,11 @@ function initKeyboard() {
 }
 
 function updateDisplay() {
+  if (ERROR) {
+    DISPLAY.textContent = "Error";
+    ERROR = false;
+    return;
+  }
   if (DISPLAY_TOTAL === true) {
     DISPLAY.textContent = LEFT_OPERAND;
   } else {
