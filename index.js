@@ -32,6 +32,10 @@ BUTTONS.forEach((button) => {
         handleEquals();
         break;
       }
+      case "negative": {
+        handleNegative();
+        break;
+      }
       case "clear": {
         handleClear();
         break;
@@ -110,6 +114,22 @@ function handleClear() {
   ERROR = false;
 }
 
+function handleNegative() {
+  if (DISPLAY_TOTAL) {
+    if (LEFT_OPERAND.slice(0, 1) === "-") {
+      LEFT_OPERAND = LEFT_OPERAND.slice(1);
+    } else {
+      LEFT_OPERAND = "-" + LEFT_OPERAND;
+    }
+  } else {
+    if (RIGHT_OPERAND.slice(0, 1) === "-") {
+      RIGHT_OPERAND = RIGHT_OPERAND.slice(1);
+    } else {
+      RIGHT_OPERAND = "-" + RIGHT_OPERAND;
+    }
+  }
+}
+
 // UTIL FUNCTIONS ----------------------------------------------
 
 function init() {
@@ -174,9 +194,9 @@ function resetOperatorsHighlight() {
 }
 
 function operate(operation) {
-  if (operation > 1e160 || operation < 1e-100) {
+  if (operation > 1e160) {
     ERROR = true;
-    console.log("Result is too big or too small");
+    console.log("Result is too big");
   } else {
     LEFT_OPERAND = operation.toString();
   }
@@ -185,3 +205,4 @@ function operate(operation) {
 // ON LOAD -------------------------------------------------------
 
 init();
+// console.log(0 > 1e-100);
