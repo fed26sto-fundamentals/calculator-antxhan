@@ -71,6 +71,9 @@ function handleOperator(button) {
 }
 
 function handleEquals() {
+  if (ERROR) {
+    return;
+  }
   if (+LEFT_OPERAND === Infinity || +RIGHT_OPERAND === Infinity) {
     ERROR = true;
     console.log("Doing math with infinity error");
@@ -194,6 +197,24 @@ function resetOperatorsHighlight() {
 }
 
 function operate(operation) {
+  if (operation > 0 && operation < 1e-100) {
+    ERROR = true;
+    console.log("Result has too many decimal places");
+    return;
+  }
+
+  if (operation < 0 && operation > -1e-100) {
+    ERROR = true;
+    console.log("Result has too many decimal places");
+    return;
+  }
+
+  if (operation < -1e160) {
+    ERROR = true;
+    console.log("Result is too small");
+    return;
+  }
+
   if (operation > 1e160) {
     ERROR = true;
     console.log("Result is too big");

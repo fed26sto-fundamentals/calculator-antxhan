@@ -6,7 +6,7 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 - [ ] feat: add spaces every 4th digit in the display. \* only do it on non-decimals. Also no spaces if the number includes an "e" (scientific notation)
 - [ ] feat: swiping to the left on the display should backspace.
-- [ ] feat: negative/positive toggle
+- [x] feat: negative/positive toggle
 - [x] fix: handle maximum number errors. iphone max is 1e160
 - [ ] fix: handle minimmum number errors. iphone min is 1e-100.
 - [x] fix: when entering 5 = + = it should display 10.
