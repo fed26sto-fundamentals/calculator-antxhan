@@ -40,6 +40,10 @@ BUTTONS.forEach((button) => {
         handlePercent();
         break;
       }
+      case "decimal": {
+        handleDecimal();
+        break;
+      }
       case "backspace": {
         handleBackspace();
         break;
@@ -179,6 +183,32 @@ function handlePercent() {
   }
 }
 
+function handleDecimal() {
+  if (DISPLAYING_TOTAL) {
+    handleClear();
+    LEFT_OPERAND = "0.";
+    DISPLAYING_TOTAL = false;
+    return;
+  }
+  if (DISPLAY_TOTAL) {
+    if (LEFT_OPERAND.split(".").join("").length === MAX_DIGITS) {
+      console.log("can't add decimals");
+      return;
+    }
+    if (!LEFT_OPERAND.includes(".")) {
+      LEFT_OPERAND = LEFT_OPERAND + ".";
+    }
+  } else {
+    if (RIGHT_OPERAND.split(".").join("").length === MAX_DIGITS) {
+      console.log("can't add decimals");
+      return;
+    }
+    if (!RIGHT_OPERAND.includes(".")) {
+      RIGHT_OPERAND = RIGHT_OPERAND + ".";
+    }
+  }
+}
+
 function handleBackspace() {
   if (DISPLAYING_TOTAL) {
     console.log("can't backspace the result");
@@ -302,7 +332,13 @@ function updateDisplay() {
 }
 
 function enterDigit(digit, operand) {
-  if (operand.length >= MAX_DIGITS) {
+  let operandLength;
+  if (Math.sign(+operand) === -1 || Math.sign(+operand) === -0) {
+    operandLength = operand.slice(1).split(".").join("").length;
+  } else {
+    operandLength = operand.split(".").join("").length;
+  }
+  if (operandLength >= MAX_DIGITS) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
