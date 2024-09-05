@@ -361,8 +361,6 @@ function updateDisplay() {
     return;
   }
   if (DISPLAY_TOTAL === true) {
-    // DISPLAY.textContent = LEFT_OPERAND;
-    // DISPLAY.textContent = roundDecimals(LEFT_OPERAND);
     DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
   } else {
     DISPLAY.textContent = RIGHT_OPERAND;
@@ -397,25 +395,6 @@ function resetOperatorsHighlight() {
   });
 }
 
-function roundDecimals(value) {
-  let parts = value.split(".");
-  let integer = parts[0];
-  if (value.slice(0, 1) === "-") {
-    integer = integer.slice(1);
-  }
-  let decimals = parts[1];
-  if (!decimals) {
-    return value;
-  }
-  let roundTo;
-  if (decimals > MAX_DIGITS - 1) {
-    roundTo = integer.length > MAX_DIGITS - 1 ? 0 : MAX_DIGITS - integer.length;
-  } else {
-    roundTo = MAX_DIGITS - 1;
-  }
-  return (+value).toFixed(roundTo);
-}
-
 function operate(operation) {
   if (
     (operation > 0 && operation < 1e-100) ||
@@ -437,7 +416,6 @@ function operate(operation) {
     console.log("Result is too big");
     return;
   }
-  // let rounded = roundDecimals(operation.toString());
   // LEFT_OPERAND = rounded;
   LEFT_OPERAND = operation.toString();
 }
