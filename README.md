@@ -4,7 +4,6 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 ## TO-DO
 
-- [ ] fix: if error and i press the negative toggle it should clear and make LEFT -0
 - [ ] feat: add spaces every 4th digit in the display. \* only do it on non-decimals. Also no spaces at all if the number includes an "e" (scientific notation)
 - [ ] feat(style): responsive font-size based on digit amount.
 - [ ] feat(style): hover / active effects. should also work on keyboard input.

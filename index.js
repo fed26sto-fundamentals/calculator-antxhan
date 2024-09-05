@@ -43,6 +43,22 @@ DISPLAY.addEventListener("mouseup", (e) => {
   }
 });
 
+function updateDisplay() {
+  if (ERROR) {
+    DISPLAY.textContent = "Error";
+    return;
+  }
+  if (DISPLAY_TOTAL === true) {
+    if (calculateValueLength(LEFT_OPERAND) > MAX_DIGITS) {
+      DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
+    } else {
+      DISPLAY.textContent = prettify(LEFT_OPERAND);
+    }
+  } else {
+    DISPLAY.textContent = RIGHT_OPERAND;
+  }
+}
+
 // BUTTON FUNCTIONS --------------------------------------------
 
 BUTTONS.forEach((button) => {
@@ -359,16 +375,45 @@ function initKeyboard() {
   });
 }
 
-function updateDisplay() {
-  if (ERROR) {
-    DISPLAY.textContent = "Error";
-    // ERROR = false;
-    return;
+function isNegative(value) {
+  return value.slice(0, 1) === "-";
+}
+
+function prettify(value) {
+  let integer = value.split(".")[0];
+  let decimals = value.split(".")[1] ? value.split(".")[1] : "";
+  integer = isNegative(integer) ? integer.slice(1) : integer;
+  if (integer.length < 4) {
+    return value;
   }
-  if (DISPLAY_TOTAL === true) {
-    DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
+  let reverseInteger = integer.split("").reverse().join("");
+  let prettyInteger = "";
+
+  for (let i = 0; i < integer.length; i += 3) {
+    const batch = reverseInteger
+      .slice(i, i + 3)
+      .split("")
+      .reverse()
+      .join("");
+    console.log("bathc:", batch);
+    console.log("BL:", batch.length);
+    if (batch.length === 3 && i + 3 <= integer.length) {
+      prettyInteger = " " + batch + prettyInteger;
+    } else {
+      prettyInteger = batch + prettyInteger;
+    }
+  }
+
+  if (value.includes(".")) {
+    if (isNegative(value)) {
+      return "-" + prettyInteger.trim() + "." + decimals;
+    }
+    return prettyInteger + "." + decimals;
   } else {
-    DISPLAY.textContent = RIGHT_OPERAND;
+    if (isNegative(value)) {
+      return "-" + prettyInteger.trim();
+    }
+    return prettyInteger;
   }
 }
 
