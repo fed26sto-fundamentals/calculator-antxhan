@@ -320,8 +320,6 @@ function init() {
   updateDisplay();
 }
 
-// let BUTTON_IN_FOCUS = document.hasFocus()
-
 function initKeyboard() {
   document.addEventListener("keydown", (e) => {
     const equalButton = document.querySelector("button.equals");
