@@ -14,6 +14,23 @@ const BUTTONS = document.querySelectorAll("button");
 const OPERATORS = document.querySelectorAll(".operator");
 const MAX_DIGITS = 9;
 
+// DISPLAY FUNCTIONS -------------------------------------------
+
+let SWIPE_START;
+let SWIPE_END;
+
+DISPLAY.addEventListener("touchstart", (e) => {
+  SWIPE_START = e.changedTouches[0].screenX;
+});
+
+DISPLAY.addEventListener("touchend", (e) => {
+  SWIPE_END = e.changedTouches[0].screenX;
+  if (SWIPE_START - SWIPE_END >= 100) {
+    handleBackspace();
+    updateDisplay();
+  }
+});
+
 // BUTTON FUNCTIONS --------------------------------------------
 
 BUTTONS.forEach((button) => {
@@ -387,4 +404,3 @@ function operate(operation) {
 // ON LOAD -------------------------------------------------------
 
 init();
-// console.log(0 > 1e-100);
