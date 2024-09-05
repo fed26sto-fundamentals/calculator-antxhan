@@ -164,6 +164,11 @@ function handleClear() {
 }
 
 function handleNegative() {
+  if (ERROR) {
+    handleClear();
+    LEFT_OPERAND = "-0";
+    return;
+  }
   if (DISPLAY_TOTAL) {
     if (LEFT_OPERAND.slice(0, 1) === "-") {
       LEFT_OPERAND = LEFT_OPERAND.slice(1);
@@ -416,7 +421,6 @@ function operate(operation) {
     console.log("Result is too big");
     return;
   }
-  // LEFT_OPERAND = rounded;
   LEFT_OPERAND = operation.toString();
 }
 
