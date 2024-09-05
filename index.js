@@ -320,12 +320,17 @@ function init() {
   updateDisplay();
 }
 
+// let BUTTON_IN_FOCUS = document.hasFocus()
+
 function initKeyboard() {
   document.addEventListener("keydown", (e) => {
     const equalButton = document.querySelector("button.equals");
     const backspaceButton = document.querySelector("button.backspace");
     const negativeButton = document.querySelector("button.negative");
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && document.activeElement === document.body) {
+      equalButton.click();
+    }
+    if (e.key === "=") {
       equalButton.click();
     }
     if (e.key === "Backspace") {
