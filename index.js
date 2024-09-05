@@ -23,8 +23,20 @@ DISPLAY.addEventListener("touchstart", (e) => {
   SWIPE_START = e.changedTouches[0].screenX;
 });
 
+DISPLAY.addEventListener("mousedown", (e) => {
+  SWIPE_START = e.screenX;
+});
+
 DISPLAY.addEventListener("touchend", (e) => {
   SWIPE_END = e.changedTouches[0].screenX;
+  if (SWIPE_START - SWIPE_END >= 100) {
+    handleBackspace();
+    updateDisplay();
+  }
+});
+
+DISPLAY.addEventListener("mouseup", (e) => {
+  SWIPE_END = e.screenX;
   if (SWIPE_START - SWIPE_END >= 100) {
     handleBackspace();
     updateDisplay();
