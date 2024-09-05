@@ -442,94 +442,12 @@ function operate(operation) {
   LEFT_OPERAND = operation.toString();
 }
 
-function convertToExponential1(value) {
-  if (value.split(".").join("").length > MAX_DIGITS) {
-    let fractionDigits = 6;
-    if (value.includes(".")) {
-      // it's a floating number
-      let parts = value.split(".");
-      let integer = parts[0];
-      console.log("intereget:", integer);
-      let decimals = parts[1];
-
-      // digit amount (distance) between first digit and decimal point
-      let distance =
-        integer.slice(0, 1) === "-" ? integer.length - 2 : integer.length - 1;
-
-      console.log("val:", value);
-      console.log("distance:", distance);
-
-      if (distance > 9 && 100 > distance) {
-        fractionDigits = 5;
-      } else if (distance > 99) {
-        fractionDigits = 4;
-      }
-      if (decimals.includes("e")) {
-        fractionDigits = fractionDigits - 1;
-        console.log("this:", decimals.slice(decimals.length - 2));
-        if (+decimals.slice(decimals.length - 2) > 99) {
-          fractionDigits = fractionDigits - 1;
-        }
-      }
-    }
-    // console.log(value);
-    // console.log("fractionDigits:", fractionDigits);
-    //   if (value.split(".").join("").length > MAX_DIGITS) {
-    //     if (value.slice(0, 1) === "-") {
-    //       // negative number
-    //       if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
-    //         // still more than 9 digits
-    //         return (+value).toExponential(fractionDigits).toString();
-    //       } else {
-    //         // less than or equal to 9 numbers
-    //         return value;
-    //       }
-    //     } else {
-    //       // positive number
-    //       return (+value).toExponential(fractionDigits).toString();
-    //     }
-    //   } else {
-    //     return value;
-    //   }
-    // }
-    let finalValue;
-
-    if (value.slice(0, 1) === "-") {
-      // negative number
-      if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
-        // still more than 9 digits
-
-        return (+value).toExponential(fractionDigits).toString();
-      } else {
-        // less than or equal to 9 numbers
-        return value;
-      }
-    } else {
-      // positive number
-      finalValue = (+value).toExponential(fractionDigits).toString();
-      const preE = finalValue.split("e")[0];
-      console.log("preE:", preE);
-      console.log("finalVal:", finalValue);
-      return (+value).toExponential(fractionDigits).toString();
-    }
-  } else {
-    return value;
-  }
-}
-
 function setFractionDigits(value) {
-  console.log("====================================");
   let fractionDigits = 6;
-  console.log("FRAC #1:", fractionDigits);
   value = (+value).toExponential(fractionDigits).toString();
-  console.log("VALUE #1:", value);
-
   valueLength = value.split(".").join("").length;
   let coefficient = value.split("e")[0];
-  console.log("COEFFICIENT:", coefficient);
-  console.log("COEFFICIENT LENGTH - 1:", coefficient.length - 1);
   let exponent = value.split("e")[1];
-  console.log("EXPONENT:", exponent);
 
   for (let i = coefficient.length - 1; i > 0; i--) {
     let digit = coefficient[i];
@@ -541,33 +459,16 @@ function setFractionDigits(value) {
     }
   }
 
-  console.log("FRAC #2:", fractionDigits);
-
   // Checking if still need to reduce fractionDigits
   value = (+value).toExponential(fractionDigits).toString();
   coefficient = value.split("e")[0];
   exponent = value.split("e")[1];
   let coefficientLength = calculateValueLength(coefficient);
-  console.log("VALUE #2:", value);
-  console.log("RAW LENGTH:", coefficientLength + exponent.length);
   let fullLength = coefficientLength + exponent.length;
   if (fullLength > MAX_DIGITS) {
-    // fractionDigits -= exponent.length - 1;
-    // delete the överflöd över max digits
     fractionDigits -= fullLength - MAX_DIGITS;
   }
-
-  // should only kick in if the new coefficient is too long
-  // if (fractionDigits > 0) {
-  //   fractionDigits -= exponent.length - 1;
-  // }
-
-  console.log("FRAC #3:", fractionDigits);
-
   fractionDigits = fractionDigits < 0 ? 0 : fractionDigits;
-
-  console.log("FRAC #4:", fractionDigits);
-
   return fractionDigits;
 }
 
