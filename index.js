@@ -362,7 +362,8 @@ function updateDisplay() {
   }
   if (DISPLAY_TOTAL === true) {
     // DISPLAY.textContent = LEFT_OPERAND;
-    DISPLAY.textContent = roundDecimals(LEFT_OPERAND);
+    // DISPLAY.textContent = roundDecimals(LEFT_OPERAND);
+    DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
   } else {
     DISPLAY.textContent = RIGHT_OPERAND;
   }
@@ -441,101 +442,195 @@ function operate(operation) {
   LEFT_OPERAND = operation.toString();
 }
 
-function convertToExponential(value) {
-  // value is a string
-  // value = 999_999_999;
-  // value = 0.00000001;
-  // value = -999_999_999;
-  // value = -0.00000001;
+function convertToExponential1(value) {
+  if (value.split(".").join("").length > MAX_DIGITS) {
+    let fractionDigits = 6;
+    if (value.includes(".")) {
+      // it's a floating number
+      let parts = value.split(".");
+      let integer = parts[0];
+      console.log("intereget:", integer);
+      let decimals = parts[1];
 
-  // value = "123_4567.891"; // with null it becomes = 1.234567891e+6,
-  // 6 digits between the first and the .
-  // 3 decimal digits
-  // with 6 as fractionDigits, it becomes valid: 1.234568e+6
+      // digit amount (distance) between first digit and decimal point
+      let distance =
+        integer.slice(0, 1) === "-" ? integer.length - 2 : integer.length - 1;
 
-  // value = "234567891011.121314"; // with null: 2.345678910111213e+11
-  // 11 digits between the first and the .
-  // 6 decmial digits
-  // with 5 as fractionDigits, it becomes valid: 2.34568e+11
+      console.log("val:", value);
+      console.log("distance:", distance);
 
-  // value = "345.678910111213"; // with null it becomes = 3.45678910111213e+2
-  // 2 digits between the first and the .
-  // with 6 as fractionDigits, it becomes valid: 3.456789e+2
-  // console.log(value.toExponential(6));
-
-  // value = "3459284291864298649281649821649.6789101384736284362874362811213"; //
-  // with 6: 3.459284e+30
-
-  // value = "123";
-  // 1.230000e+2, unnecessary because value < MAX_DIGITS (9)
-
-  // value = "1234567891"; // 10 digits
-  // 1.234568e+9 with 6
-
-  let tMAX_DIGITS = 9;
-  // value = "-123453928739816.7891";
-  // value = "-98438479184721987291847291847291847198.0098473298431093740917304973091743091709317";
-  // value = "123";
-  // value = "-1234567891"; // 10 digits
-  // value = "-0.00000001";
-  // value = "-123456789.1"
-  // value = "-9.84385e+37";
-
-  let fractionDigits = 6;
-  if (value.includes(".")) {
-    // it's a floating number
-    let parts = value.split(".");
-    let integer = parts[0];
-    let decimals = parts[1];
-
-    // digit amount (distance) between first digit and decimal point
-    let distance =
-      integer.slice(0, 1) === "-" ? integer.length - 2 : integer.length - 1;
-
-    if (distance > 9 && 100 > distance) {
-      fractionDigits = 5;
-    } else if (distance > 99) {
-      fractionDigits = 4;
+      if (distance > 9 && 100 > distance) {
+        fractionDigits = 5;
+      } else if (distance > 99) {
+        fractionDigits = 4;
+      }
+      if (decimals.includes("e")) {
+        fractionDigits = fractionDigits - 1;
+        console.log("this:", decimals.slice(decimals.length - 2));
+        if (+decimals.slice(decimals.length - 2) > 99) {
+          fractionDigits = fractionDigits - 1;
+        }
+      }
     }
-    if (decimals.includes("e")) {
-      fractionDigits = fractionDigits - 1;
-    }
-  }
-  console.log(value);
-  console.log("fractionDigits:", fractionDigits);
-  // console.log(value.slice(1).split(".").join("").length);
-  // console.log(value.slice(1).split(".").join("").length > tMAX_DIGITS);
-  // console.log(value.slice(1).split(".").join(""));
+    // console.log(value);
+    // console.log("fractionDigits:", fractionDigits);
+    //   if (value.split(".").join("").length > MAX_DIGITS) {
+    //     if (value.slice(0, 1) === "-") {
+    //       // negative number
+    //       if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
+    //         // still more than 9 digits
+    //         return (+value).toExponential(fractionDigits).toString();
+    //       } else {
+    //         // less than or equal to 9 numbers
+    //         return value;
+    //       }
+    //     } else {
+    //       // positive number
+    //       return (+value).toExponential(fractionDigits).toString();
+    //     }
+    //   } else {
+    //     return value;
+    //   }
+    // }
+    let finalValue;
 
-  if (value.split(".").join("").length > tMAX_DIGITS) {
     if (value.slice(0, 1) === "-") {
-      // console.log("HERE 1");
       // negative number
-      if (value.slice(1).split(".").join("").length > tMAX_DIGITS) {
-        // console.log("HERE 2");
+      if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
         // still more than 9 digits
-        console.log((+value).toExponential(fractionDigits).toString());
+
+        return (+value).toExponential(fractionDigits).toString();
       } else {
         // less than or equal to 9 numbers
-        // console.log("HERE 3");
-        console.log(value);
+        return value;
       }
     } else {
       // positive number
-      console.log((+value).toExponential(fractionDigits).toString());
+      finalValue = (+value).toExponential(fractionDigits).toString();
+      const preE = finalValue.split("e")[0];
+      console.log("preE:", preE);
+      console.log("finalVal:", finalValue);
+      return (+value).toExponential(fractionDigits).toString();
     }
   } else {
-    console.log(value);
+    return value;
+  }
+}
+
+function setFractionDigits(value) {
+  console.log("====================================");
+  let fractionDigits = 6;
+  console.log("FRAC #1:", fractionDigits);
+  value = (+value).toExponential(fractionDigits).toString();
+  console.log("VALUE #1:", value);
+
+  valueLength = value.split(".").join("").length;
+  let coefficient = value.split("e")[0];
+  console.log("COEFFICIENT:", coefficient);
+  console.log("COEFFICIENT LENGTH - 1:", coefficient.length - 1);
+  let exponent = value.split("e")[1];
+  console.log("EXPONENT:", exponent);
+
+  for (let i = coefficient.length - 1; i > 0; i--) {
+    let digit = coefficient[i];
+    if (digit === "0") {
+      fractionDigits -= 1;
+      continue;
+    } else if (digit !== "0") {
+      break;
+    }
   }
 
-  // console.log((+value).toExponential(fractionDigits));
-  // the fractionDigits depends on the distance between first number and .
-  // fractionDigits = 6
-  // if 100 > distance > 9: fractionDigits = 5
-  // if distance > 99: fractionDigits = 4
+  console.log("FRAC #2:", fractionDigits);
 
-  // e counts as a digit
-  // - and , does not count as digits
+  // Checking if still need to reduce fractionDigits
+  value = (+value).toExponential(fractionDigits).toString();
+  coefficient = value.split("e")[0];
+  exponent = value.split("e")[1];
+  let coefficientLength = calculateValueLength(coefficient);
+  console.log("VALUE #2:", value);
+  console.log("RAW LENGTH:", coefficientLength + exponent.length);
+  let fullLength = coefficientLength + exponent.length;
+  if (fullLength > MAX_DIGITS) {
+    // fractionDigits -= exponent.length - 1;
+    // delete the överflöd över max digits
+    fractionDigits -= fullLength - MAX_DIGITS;
+  }
+
+  // should only kick in if the new coefficient is too long
+  // if (fractionDigits > 0) {
+  //   fractionDigits -= exponent.length - 1;
+  // }
+
+  console.log("FRAC #3:", fractionDigits);
+
+  fractionDigits = fractionDigits < 0 ? 0 : fractionDigits;
+
+  console.log("FRAC #4:", fractionDigits);
+
+  return fractionDigits;
+}
+
+function calculateValueLength(value) {
+  let valueLength = value.split(".").join("").length;
+  valueLength = value.slice(0, 1) === "-" ? valueLength - 1 : valueLength;
+  return valueLength;
+}
+
+function convertToExponential(value) {
+  let valueLength = calculateValueLength(value);
+  if (valueLength > MAX_DIGITS) {
+    let fractionDigits = setFractionDigits(value);
+    return (+value).toExponential(fractionDigits).toString();
+  } else {
+    return value;
+  }
+
+  // let fractionDigits = 6;
+  // if (value.includes(".")) {
+  //   // it's a floating number
+  //   let parts = value.split(".");
+  //   let integer = parts[0];
+  //   console.log("intereget:", integer);
+  //   let decimals = parts[1];
+  //   // digit amount (distance) between first digit and decimal point
+  //   let distance =
+  //     integer.slice(0, 1) === "-" ? integer.length - 2 : integer.length - 1;
+  //   console.log("val:", value);
+  //   console.log("distance:", distance);
+  //   if (distance > 9 && 100 > distance) {
+  //     fractionDigits = 5;
+  //   } else if (distance > 99) {
+  //     fractionDigits = 4;
+  //   }
+  //   if (decimals.includes("e")) {
+  //     fractionDigits = fractionDigits - 1;
+  //     console.log("this:", decimals.slice(decimals.length - 2));
+  //     if (+decimals.slice(decimals.length - 2) > 99) {
+  //       fractionDigits = fractionDigits - 1;
+  //     }
+  //   }
+  // }
+  //   let finalValue;
+  //   if (value.slice(0, 1) === "-") {
+  //     // negative number
+  //     if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
+  //       // still more than 9 digits
+  //       return (+value).toExponential(fractionDigits).toString();
+  //     } else {
+  //       // less than or equal to 9 numbers
+  //       return value;
+  //     }
+  //   } else {
+  //     // positive number
+  //     finalValue = (+value).toExponential(fractionDigits).toString();
+  //     const preE = finalValue.split("e")[0];
+  //     console.log("preE:", preE);
+  //     console.log("finalVal:", finalValue);
+  //     return (+value).toExponential(fractionDigits).toString();
+  //   }
+  // } else {
+  //   return value;
 }
 
 // ON LOAD -------------------------------------------------------
