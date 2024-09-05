@@ -325,6 +325,7 @@ function initKeyboard() {
     const equalButton = document.querySelector("button.equals");
     const backspaceButton = document.querySelector("button.backspace");
     const negativeButton = document.querySelector("button.negative");
+    const percenteButton = document.querySelector("button.percent");
     if (e.key === "Enter" && document.activeElement === document.body) {
       equalButton.click();
     }
@@ -333,6 +334,9 @@ function initKeyboard() {
     }
     if (e.key === "Backspace") {
       backspaceButton.click();
+    }
+    if (e.key === "%") {
+      percenteButton.click();
     }
     if (e.key === "_") {
       negativeButton.click();
