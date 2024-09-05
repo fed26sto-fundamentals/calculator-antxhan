@@ -9,3 +9,12 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] feat(style): responsive font-size based on digit amount.
 - [ ] feat(style): hover / active effects. should also work on keyboard input.
 - [ ] feat: add a footer with credits + link to instructions and tricks on how to use it.
+
+toExponential should kick in when the number is
+smaller than 0.00000001 but larger than 0
+larger than 999 999 999
+
+so -999 999 999 + -1 = -1e9
+-1e9 < -999 999 999 = true
+
+if (integer.length > MAX_DIGITS)
