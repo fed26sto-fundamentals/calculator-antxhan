@@ -195,6 +195,9 @@ function handleNegative() {
     if (RIGHT_OPERAND.slice(0, 1) === "-") {
       RIGHT_OPERAND = RIGHT_OPERAND.slice(1);
     } else {
+      if (!RIGHT_OPERAND) {
+        RIGHT_OPERAND = "0";
+      }
       RIGHT_OPERAND = "-" + RIGHT_OPERAND;
     }
   }
