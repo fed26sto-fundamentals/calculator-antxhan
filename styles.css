@@ -1,8 +1,11 @@
 :root {
   /* SIZES */
-  --calculator-width: min(430px, 100%);
-  --button-gap: 1rem;
-  --fs-normal: 2.5rem;
+  --iphone-width: 1179px;
+  --iphone-height: 2556px;
+  /* --calculator-width: min(430px, 100%); */
+  --calculator-width: min(calc(var(--iphone-width) / 3.5), 100%);
+  --button-gap: 0.75rem;
+  --fs-normal: 2.25rem;
   --fs-large: 5rem;
 
   /* COLORS */
@@ -10,7 +13,7 @@
   --clr-neutral-500: #a5a5a5;
   --clr-neutral-300: #333333;
   --clr-neutral-900: #000;
-  --clr-primary: #f3a23c;
+  --clr-primary: #ff9812;
 }
 
 *,
@@ -45,45 +48,22 @@ main {
 
 .display {
   text-align: right;
-  /* flex-grow: 1; */
   padding-inline: 2rem;
   padding-block-start: 1rem;
   align-content: center;
   height: 8rem;
-  /* font-size: calc(var(--fs-large) - 0.1rem * var(--char-count)); */
-  font-size: clamp(var(--fs-normal), 10vw, var(--fs-large));
+  /* font-size: clamp(var(--fs-normal), 10vw, var(--fs-large)); */
   white-space: nowrap; /* Prevents text from wrapping */
   overflow: hidden; /* Hides overflow */
   width: 100%;
   font-weight: 100;
-  /* max-width: 12ch; */
-  /* max-width: 100%; */
-  /* background: red; */
 }
 
 .buttons {
-  display: flex;
-  flex-wrap: wrap;
   padding: var(--button-gap);
   gap: var(--button-gap);
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 button::before {
@@ -97,6 +77,9 @@ button::before {
   position: absolute;
   opacity: 0;
   z-index: 1;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 button:not([aria-current="true"]):hover::before {
@@ -124,24 +107,18 @@ button {
   position: relative;
   border-radius: 100vw;
   background-color: var(--clr-neutral-300);
-  width: calc(((var(--calculator-width) / 4) - calc(var(--button-gap) * 0.75)));
   aspect-ratio: 1;
   color: inherit;
   font-size: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transition: background-color 200ms !important; */
   & svg {
     width: var(--fs-normal);
     height: var(--fs-normal);
   }
   &:hover {
     cursor: pointer;
-  }
-  &:active {
-    /* background-color: var(--clr-neutral-000) !important; */
-    /* transition: background-color 0ms !important; */
   }
 }
 
@@ -162,8 +139,16 @@ button.equals {
   background-color: var(--clr-primary);
 }
 
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
 @media (min-width: 431px) {
+  :root {
+    /* --calculator-width: 375px; */
+  }
   .calculator {
-    border: 1px solid var(--clr-neutral-500);
+    /* border: 1px solid var(--clr-neutral-500); */
   }
 }
