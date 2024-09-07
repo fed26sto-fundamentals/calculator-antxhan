@@ -17,7 +17,6 @@ const MAX_DIGITS = 9;
 // DISPLAY FUNCTIONS -------------------------------------------
 
 let SWIPE_START;
-let SWIPE_END;
 const SWIPE_LENGTH = 60;
 
 DISPLAY.addEventListener("touchstart", (e) => {
@@ -29,20 +28,19 @@ DISPLAY.addEventListener("mousedown", (e) => {
 });
 
 DISPLAY.addEventListener("touchend", (e) => {
-  SWIPE_END = e.changedTouches[0].screenX;
-  if (Math.abs(SWIPE_START - SWIPE_END) >= SWIPE_LENGTH) {
-    handleBackspace();
-    updateDisplay();
-  }
+  handleSwipe(e.changedTouches[0].screenX);
 });
 
 DISPLAY.addEventListener("mouseup", (e) => {
-  SWIPE_END = e.screenX;
+  handleSwipe(e.screenX);
+});
+
+function handleSwipe(SWIPE_END) {
   if (Math.abs(SWIPE_START - SWIPE_END) >= SWIPE_LENGTH) {
     handleBackspace();
     updateDisplay();
   }
-});
+}
 
 function updateDisplay() {
   if (ERROR) {
