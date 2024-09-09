@@ -12,6 +12,7 @@ let ERROR;
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 const OPERATORS = document.querySelectorAll(".operator");
+const CLEAR_BUTTON = document.querySelector("button.clear");
 const MAX_DIGITS = 9;
 
 // DISPLAY FUNCTIONS -------------------------------------------
@@ -103,6 +104,7 @@ BUTTONS.forEach((button) => {
 });
 
 function handleDigit(digit) {
+  CLEAR_BUTTON.textContent = "C";
   if (ERROR) {
     handleClear();
     LEFT_OPERAND = digit;
@@ -170,12 +172,21 @@ function handleEquals() {
 }
 
 function handleClear() {
-  LEFT_OPERAND = "0";
-  RIGHT_OPERAND = "";
-  DISPLAY_TOTAL = true;
-  OPERATOR = "";
-  DISPLAYING_TOTAL = false;
-  ERROR = false;
+  if (CLEAR_BUTTON.textContent === "AC") {
+    LEFT_OPERAND = "0";
+    RIGHT_OPERAND = "";
+    DISPLAY_TOTAL = true;
+    OPERATOR = "";
+    DISPLAYING_TOTAL = false;
+    ERROR = false;
+  } else if (CLEAR_BUTTON.textContent === "C") {
+    if (DISPLAY_TOTAL) {
+      LEFT_OPERAND = "0";
+    } else {
+      RIGHT_OPERAND = "0";
+    }
+  }
+  CLEAR_BUTTON.textContent = "AC";
 }
 
 function handleNegative() {
@@ -236,6 +247,7 @@ function handlePercent() {
 }
 
 function handleDecimal() {
+  CLEAR_BUTTON.textContent = "C";
   if (DISPLAYING_TOTAL) {
     handleClear();
     LEFT_OPERAND = "0.";

@@ -4,9 +4,9 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 ## TO-DO
 
-- [ ] feat(clear): the clear button should change between AC and C.
-- [ ] feat(style): responsive font-size based on digit amount.
+- [ ] feat(footer): add footer with credits + link to instructions & tricks on how to use it.
+- [ ] feat(style): correct font & responsive font-size based on digit amount.
 - [ ] feat(style): hover / active effects. should also work on keyboard input.
 - [ ] feat(style): dragging your finger across the buttons it does a hover effect.
-- [ ] feat: add a footer with credits + link to instructions and tricks on how to use it.
+- [ ] feat(style): OPERATOR highlights should only be affected when pressing digits or equals?
 - [ ] refactor: remove random comments and console.log
