@@ -10,6 +10,7 @@
   /* COLORS */
   --clr-neutral-000: #fff;
   --clr-neutral-500: #a5a5a5;
+  --clr-neutral-400: #5b5b5b;
   --clr-neutral-300: #333333;
   --clr-neutral-900: #000;
   --clr-primary: #ff9812;
@@ -66,18 +67,34 @@ a {
   text-align: right;
   margin-inline: 24px;
   align-content: center;
-  height: 8rem;
+  height: 96px;
   text-wrap: nowrap;
   font-weight: lighter;
-  /* outline: 1px solid red; */
+  /* outline: 1px solid yellow; */
   font-size: 80px;
 }
 
 .buttons {
+  /* width: 100%; */
   padding: var(--button-gap);
-  gap: var(--button-gap);
+  /* gap: var(--button-gap); */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* outline: 1px solid pink; */
+}
+
+/* .backspace {
+  position: absolute;
+} */
+
+.zero {
+  /* columns: 1 / span 2; */
+  grid-column: 1 / span 2;
+  aspect-ratio: 2;
+  /* align-items: flex-start; */
+  /* justify-content: start; */
+  /* width: 100%; */
+  /* text-align: left; */
 }
 
 button::before {
@@ -94,6 +111,10 @@ button::before {
   &:hover {
     cursor: pointer;
   }
+}
+
+.zero::before {
+  aspect-ratio: 2;
 }
 
 button:not([aria-current="true"]):hover::before {
@@ -137,13 +158,12 @@ button {
 }
 
 button.backspace > svg {
-  margin-right: 0.33rem;
+  /* margin-right: 0.33rem; */
 }
 
 button.percent,
 button.negative,
-button.clear,
-button.backspace {
+button.clear {
   background-color: var(--clr-neutral-500);
   color: var(--clr-neutral-900);
 }
@@ -151,6 +171,53 @@ button.backspace {
 button.operator,
 button.equals {
   background-color: var(--clr-primary);
+}
+
+.display-buttons {
+  visibility: hidden;
+  align-items: center;
+  display: flex;
+  /* width: 100%; */
+  /* outline: 1px solid red; */
+  padding-inline: 0.5rem;
+  /* background: red; */
+}
+
+.display-wrapper:hover .display-buttons {
+  visibility: visible;
+}
+
+.display-buttons button {
+  background: none;
+  /* color: var(--clr-neutral-300); */
+  color: var(--clr-neutral-400);
+  width: 2rem;
+  height: 2rem;
+}
+
+.display-buttons span {
+  visibility: hidden;
+  margin-left: auto;
+  /* margin-left: 0.25rem; */
+  /* justify-self: flex-end; */
+  /* align-self: flex-end; */
+  font-size: 1rem;
+  color: var(--clr-neutral-500);
+}
+
+.display-buttons button:hover {
+  color: var(--clr-neutral-000);
+  &::before {
+    opacity: 0;
+  }
+}
+
+button:not([aria-current="true"]):hover::before .backspace svg {
+  width: 1.75rem;
+}
+
+.copy svg {
+  width: 1.5rem;
 }
 
 footer {
@@ -185,5 +252,8 @@ footer > p > a {
   }
   main {
     align-items: flex-end;
+  }
+  .display-buttons {
+    display: none;
   }
 }

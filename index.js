@@ -16,8 +16,8 @@ const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 const OPERATORS = document.querySelectorAll(".operator");
 const CLEAR_BUTTON = document.querySelector("button.clear");
+const COPY_BUTTON = document.querySelector("button.copy");
 const MAX_DIGITS = 9;
-// const MAX_FONT_SIZE = DISPLAY_WIDTH / 7
 
 // DISPLAY FUNCTIONS -------------------------------------------
 
@@ -28,17 +28,18 @@ DISPLAY.addEventListener("touchstart", (e) => {
   SWIPE_START = e.changedTouches[0].screenX;
 });
 
-DISPLAY.addEventListener("mousedown", (e) => {
-  SWIPE_START = e.screenX;
-});
+// DISPLAY.addEventListener("mousedown", (e) => {
+//   SWIPE_START = e.screenX;
+// });
 
 DISPLAY.addEventListener("touchend", (e) => {
   handleSwipe(e.changedTouches[0].screenX);
 });
 
-DISPLAY.addEventListener("mouseup", (e) => {
-  handleSwipe(e.screenX);
-});
+// DISPLAY.addEventListener("mouseup", (e) => {
+//   handleSwipe(e.screenX);
+//   console.log(window.getSelection());
+// });
 
 function handleSwipe(SWIPE_END) {
   if (Math.abs(SWIPE_START - SWIPE_END) >= SWIPE_LENGTH) {
@@ -103,6 +104,10 @@ BUTTONS.forEach((button) => {
       }
       case "backspace": {
         handleBackspace();
+        break;
+      }
+      case "copy": {
+        handleCopy();
         break;
       }
       case "clear": {
@@ -284,6 +289,28 @@ function handleDecimal() {
       RIGHT_OPERAND = RIGHT_OPERAND + ".";
     }
   }
+}
+
+function handleCopy() {
+  const r = document.createRange();
+  r.selectNode(DISPLAY);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(r);
+  try {
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+    console.log("Copied" + r);
+  } catch (err) {
+    console.log("Unable to copy!");
+  }
+  const copyMessage = document.querySelector(".display-buttons span");
+  copyMessage.style.visibility = "visible";
+  setTimeout(hideCopiedMessage, 1000);
+}
+
+function hideCopiedMessage() {
+  const copyMessage = document.querySelector(".display-buttons span");
+  copyMessage.style.visibility = "hidden";
 }
 
 function handleBackspace() {
