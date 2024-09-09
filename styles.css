@@ -2,8 +2,6 @@
   /* SIZES */
   --iphone-width: 1179px;
   --iphone-height: 2556px;
-  /* --calculator-width: min(430px, 100%); */
-  --calculator-width: min(calc(var(--iphone-width) / 3.5), 100%);
   --button-gap: 0.75rem;
   --fs-normal: 2.25rem;
   --fs-large: 5rem;
@@ -29,6 +27,7 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   color: var(--clr-neutral-000);
   font-size: var(--fs-normal);
+  overflow: hidden;
 }
 
 main {
@@ -36,27 +35,31 @@ main {
   justify-content: center;
   align-items: center;
   height: 100svh;
+  padding: 1rem;
 }
 
 .calculator {
-  width: var(--calculator-width);
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   max-height: 900px;
+  outline: 1px solid green;
 }
 
 .display {
   text-align: right;
-  padding-inline: 2rem;
-  padding-block-start: 1rem;
+  margin-inline: 24px;
+  /* padding-inline: 24px; */
+  /* padding-block-start: 1rem; */
   align-content: center;
   height: 8rem;
-  /* font-size: clamp(var(--fs-normal), 10vw, var(--fs-large)); */
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides overflow */
-  width: 100%;
-  font-weight: 100;
+  /* white-space: nowrap; */
+  text-wrap: nowrap;
+  /* overflow: hidden; */
+  /* width: 100%; */
+  font-weight: lighter;
+  outline: 1px solid red;
+  font-size: 80px;
 }
 
 .buttons {
@@ -142,13 +145,4 @@ button.equals {
 footer {
   position: absolute;
   bottom: 0;
-}
-
-@media (min-width: 431px) {
-  :root {
-    /* --calculator-width: 375px; */
-  }
-  .calculator {
-    /* border: 1px solid var(--clr-neutral-500); */
-  }
 }

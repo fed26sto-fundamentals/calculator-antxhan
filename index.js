@@ -9,11 +9,15 @@ let ERROR;
 
 // GLOBAL VARIABLES --------------------------------------------
 
+const IPHONE_WIDTH = 1179; //px
+const SCALE_FACTOR = 3.5;
+const CALCULATOR = document.querySelector(".calculator");
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 const OPERATORS = document.querySelectorAll(".operator");
 const CLEAR_BUTTON = document.querySelector("button.clear");
 const MAX_DIGITS = 9;
+// const MAX_FONT_SIZE = DISPLAY_WIDTH / 7
 
 // DISPLAY FUNCTIONS -------------------------------------------
 
@@ -61,6 +65,7 @@ function updateDisplay() {
       DISPLAY.textContent = RIGHT_OPERAND;
     }
   }
+  adjustFontSize();
 }
 
 // BUTTON FUNCTIONS --------------------------------------------
@@ -359,9 +364,19 @@ function handleBackspace() {
 // UTIL FUNCTIONS ----------------------------------------------
 
 function init() {
+  CALCULATOR.style.width = calculateWidth();
   initKeyboard();
   handleClear();
   updateDisplay();
+}
+
+function calculateWidth() {
+  const windowWidth = window.innerWidth;
+  const maxWidth = IPHONE_WIDTH / SCALE_FACTOR;
+  if (windowWidth < 431) {
+    return `${windowWidth}px`;
+  }
+  return `${maxWidth}px`;
 }
 
 function initKeyboard() {
@@ -431,12 +446,12 @@ function prettify(value) {
     if (isNegative(value)) {
       return "-" + prettyInteger.trim() + "." + decimals;
     }
-    return prettyInteger + "." + decimals;
+    return prettyInteger.trim() + "." + decimals;
   } else {
     if (isNegative(value)) {
       return "-" + prettyInteger.trim();
     }
-    return prettyInteger;
+    return prettyInteger.trim();
   }
 }
 
@@ -582,6 +597,33 @@ function convertToExponential(value) {
   //   }
   // } else {
   //   return value;
+}
+
+function minimizeFontSize(textWidth, displayWidth, fontSize) {
+  while (textWidth > displayWidth && fontSize > 10) {
+    console.log("MINIMIZING");
+    fontSize -= 1;
+    DISPLAY.style.fontSize = fontSize + "px";
+    textWidth = DISPLAY.scrollWidth;
+  }
+}
+
+function adjustFontSize() {
+  let displayWidth = DISPLAY.offsetWidth;
+  let textWidth = DISPLAY.scrollWidth;
+  let fontSize = parseInt(window.getComputedStyle(DISPLAY).fontSize);
+
+  if (textWidth > displayWidth) {
+    minimizeFontSize(textWidth, displayWidth, fontSize);
+  } else if (textWidth <= displayWidth) {
+    while (textWidth <= displayWidth && fontSize < 80) {
+      console.log("MAXIMIZING");
+      fontSize += 1;
+      DISPLAY.style.fontSize = fontSize + "px";
+      textWidth = DISPLAY.scrollWidth;
+    }
+    minimizeFontSize(textWidth, displayWidth, fontSize);
+  }
 }
 
 // ON LOAD -------------------------------------------------------
