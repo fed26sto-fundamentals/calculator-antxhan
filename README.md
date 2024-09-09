@@ -4,7 +4,6 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 ## TO-DO
 
-- [ ] feat: correct font & responsive font-size based on digit amount.
 - [ ] feat(footer): add footer with credits + link to instructions & tricks on how to use it.
 - [ ] feat(style): hover / active effects. should also work on keyboard input.
 - [ ] feat(style): dragging your finger across the buttons it does a hover effect.

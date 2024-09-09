@@ -268,7 +268,7 @@ function handleDecimal() {
     return;
   }
   if (DISPLAY_TOTAL) {
-    if (LEFT_OPERAND.split(".").join("").length === MAX_DIGITS) {
+    if (LEFT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
       console.log("can't add decimals");
       return;
     }
@@ -276,7 +276,7 @@ function handleDecimal() {
       LEFT_OPERAND = LEFT_OPERAND + ".";
     }
   } else {
-    if (RIGHT_OPERAND.split(".").join("").length === MAX_DIGITS) {
+    if (RIGHT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
       console.log("can't add decimals");
       return;
     }
