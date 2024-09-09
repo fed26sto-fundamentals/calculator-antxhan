@@ -8,4 +8,3 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] feat(style): hover / active effects. should also work on keyboard input.
 - [ ] feat(style): dragging your finger across the buttons it does a hover effect.
 - [ ] refactor: remove random comments and console.log
-- [ ] fix: shouldn't be able to add a comma when 9 digits have been input

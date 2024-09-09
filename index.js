@@ -184,7 +184,7 @@ function handleEquals() {
 }
 
 function handleClear() {
-  if (CLEAR_BUTTON.textContent === "AC") {
+  if (CLEAR_BUTTON.textContent === "AC" || ERROR) {
     LEFT_OPERAND = "0";
     RIGHT_OPERAND = "";
     DISPLAY_TOTAL = true;
