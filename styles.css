@@ -2,6 +2,7 @@
   /* SIZES */
   --iphone-width: 1179px;
   --iphone-height: 2556px;
+  /* --calculator-width: min(calc(var(--iphone-width) / 3.5), 100%); */
   --button-gap: 0.75rem;
   --fs-normal: 2.25rem;
   --fs-large: 5rem;
@@ -22,43 +23,53 @@
   padding: 0;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background-color: var(--clr-neutral-900);
   font-family: Helvetica, Arial, sans-serif;
   color: var(--clr-neutral-000);
   font-size: var(--fs-normal);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* gap: 2rem; */
 }
 
 main {
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
-  height: 100svh;
-  padding: 1rem;
+  /* align-items: flex-end; */
+  /* background: rgb(118, 41, 41); */
+}
+
+a {
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .calculator {
+  /* width: var(--calculator-width); */
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   max-height: 900px;
-  outline: 1px solid green;
+  /* outline: 1px solid green; */
 }
 
 .display {
   text-align: right;
   margin-inline: 24px;
-  /* padding-inline: 24px; */
-  /* padding-block-start: 1rem; */
   align-content: center;
   height: 8rem;
-  /* white-space: nowrap; */
   text-wrap: nowrap;
-  /* overflow: hidden; */
-  /* width: 100%; */
   font-weight: lighter;
-  outline: 1px solid red;
+  /* outline: 1px solid red; */
   font-size: 80px;
 }
 
@@ -143,6 +154,36 @@ button.equals {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  /* height: 100px; */
+  /* height: 3rem; */
+  height: min(10%, 4rem);
+  /* padding-bottom: min(10svh, 5rem); */
+  /* background: rgb(111, 111, 40); */
+  /* padding: 1.5rem; */
+  /* padding-block-end: 1rem; */
+}
+
+footer > p {
+  color: var(--clr-neutral-500);
+}
+
+footer > p > a {
+  /* align-self: flex-start; */
+  /* background: red; */
+  /* text-decoration: none; */
+  color: var(--clr-neutral-000);
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+  body {
+    overflow: hidden;
+  }
+  main {
+    align-items: flex-end;
+  }
 }
