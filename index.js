@@ -55,7 +55,11 @@ function updateDisplay() {
       DISPLAY.textContent = prettify(LEFT_OPERAND);
     }
   } else {
-    DISPLAY.textContent = RIGHT_OPERAND;
+    if (!RIGHT_OPERAND) {
+      DISPLAY.textContent = LEFT_OPERAND;
+    } else {
+      DISPLAY.textContent = RIGHT_OPERAND;
+    }
   }
 }
 
@@ -63,17 +67,19 @@ function updateDisplay() {
 
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
-    resetOperatorsHighlight();
     switch (e.target.className) {
       case "digit": {
+        resetOperatorsHighlight();
         handleDigit(e.target.value);
         break;
       }
       case "operator": {
+        resetOperatorsHighlight();
         handleOperator(e.target);
         return;
       }
       case "equals": {
+        resetOperatorsHighlight();
         handleEquals();
         break;
       }
@@ -86,6 +92,7 @@ BUTTONS.forEach((button) => {
         break;
       }
       case "decimal": {
+        resetOperatorsHighlight();
         handleDecimal();
         break;
       }
@@ -177,6 +184,7 @@ function handleClear() {
     RIGHT_OPERAND = "";
     DISPLAY_TOTAL = true;
     OPERATOR = "";
+    resetOperatorsHighlight();
     DISPLAYING_TOTAL = false;
     ERROR = false;
   } else if (CLEAR_BUTTON.textContent === "C") {
@@ -299,7 +307,8 @@ function handleBackspace() {
   } else {
     if (!RIGHT_OPERAND) {
       console.log("nothing to delete");
-      DISPLAY_TOTAL = true;
+      // DISPLAY_TOTAL = true;
+      // DISPLAYING_TOTAL = true;
       return;
     }
     if (RIGHT_OPERAND === "0") {
