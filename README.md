@@ -13,3 +13,4 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] feat: copy function on mobile.
 - [ ] fix: button gaps.
 - [ ] fix: zero not working anymore.
+- [ ] refactor: make colors rgba so that no need for ::before when hovering?

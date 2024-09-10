@@ -28,18 +28,9 @@ DISPLAY.addEventListener("touchstart", (e) => {
   SWIPE_START = e.changedTouches[0].screenX;
 });
 
-// DISPLAY.addEventListener("mousedown", (e) => {
-//   SWIPE_START = e.screenX;
-// });
-
 DISPLAY.addEventListener("touchend", (e) => {
   handleSwipe(e.changedTouches[0].screenX);
 });
-
-// DISPLAY.addEventListener("mouseup", (e) => {
-//   handleSwipe(e.screenX);
-//   console.log(window.getSelection());
-// });
 
 function handleSwipe(SWIPE_END) {
   if (Math.abs(SWIPE_START - SWIPE_END) >= SWIPE_LENGTH) {
@@ -75,6 +66,7 @@ BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
     switch (e.target.className) {
       case "digit": {
+        console.log("you pressed:", e.target.value);
         resetOperatorsHighlight();
         handleDigit(e.target.value);
         break;
@@ -308,11 +300,6 @@ function handleCopy() {
   setTimeout(hideCopiedMessage, 1000);
 }
 
-function hideCopiedMessage() {
-  const copyMessage = document.querySelector(".display-buttons span");
-  copyMessage.style.visibility = "hidden";
-}
-
 function handleBackspace() {
   if (DISPLAYING_TOTAL) {
     console.log("can't backspace the result");
@@ -493,7 +480,6 @@ function enterDigit(digit, operand) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
-  // operand = operand === "0" ? digit : operand + digit;
   if (operand === "0") {
     operand = digit;
   } else if (operand === "-0") {
@@ -508,6 +494,11 @@ function resetOperatorsHighlight() {
   OPERATORS.forEach((operator) => {
     operator.setAttribute("aria-current", "false");
   });
+}
+
+function hideCopiedMessage() {
+  const copyMessage = document.querySelector(".display-buttons span");
+  copyMessage.style.visibility = "hidden";
 }
 
 function operate(operation) {

@@ -83,18 +83,9 @@ a {
   /* outline: 1px solid pink; */
 }
 
-/* .backspace {
-  position: absolute;
-} */
-
-.zero {
-  /* columns: 1 / span 2; */
+button[value="0"] {
   grid-column: 1 / span 2;
   aspect-ratio: 2;
-  /* align-items: flex-start; */
-  /* justify-content: start; */
-  /* width: 100%; */
-  /* text-align: left; */
 }
 
 button::before {
@@ -113,7 +104,7 @@ button::before {
   }
 }
 
-.zero::before {
+button[value="0"]::before {
   aspect-ratio: 2;
 }
 
