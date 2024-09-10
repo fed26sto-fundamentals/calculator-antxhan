@@ -91,7 +91,7 @@ button {
 }
 
 .display-buttons {
-  /* visibility: hidden; */
+  visibility: hidden;
   align-items: center;
   display: flex;
 }
