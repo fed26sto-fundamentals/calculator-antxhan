@@ -4,8 +4,7 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 ## TO-DO
 
-- [ ] feat(style): hover / active effects. should also work on keyboard input.
-- [ ] feat(style): dragging finger across the buttons does a hover effect.
+- [ ] feat(style): hover state + dragging finger across the buttons does a hover effect.
 - [ ] fix: font sizes on desktop vs mobile.
 - [ ] refactor: make code better.
 - [ ] refactor: the display text should be a text input, makes the copy function more safe and simple.

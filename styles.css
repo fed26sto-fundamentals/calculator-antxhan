@@ -219,7 +219,8 @@ button[value="0"]::before {
   /* opacity: 0.33; */
 }
 
-.buttons button:active::before {
+.buttons button:active::before,
+.buttons button[aria-pressed="true"]::before {
   opacity: 0.33;
   transition: opacity 0s; /* Remove transition on active state to make it instant */
 }

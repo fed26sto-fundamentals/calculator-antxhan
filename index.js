@@ -411,28 +411,40 @@ function initKeyboard() {
     const percenteButton = document.querySelector("button.percent");
     if (e.key === "Enter" && document.activeElement === document.body) {
       equalButton.click();
+      equalButton.ariaPressed = "true";
     }
     if (e.key === "=") {
       equalButton.click();
+      equalButton.ariaPressed = "true";
     }
     if (e.key === "Backspace") {
       backspaceButton.click();
+      backspaceButton.ariaPressed = "true";
     }
     if (e.key === "%") {
       percenteButton.click();
+      percenteButton.ariaPressed = "true";
     }
     if (e.key === "_") {
       negativeButton.click();
+      negativeButton.ariaPressed = "true";
     }
     BUTTONS.forEach((button) => {
       if (e.key === button.textContent.toLowerCase()) {
         button.click();
+        button.ariaPressed = "true";
       }
     });
     OPERATORS.forEach((button) => {
       if (e.key === button.value.toLowerCase()) {
         button.click();
+        button.ariaPressed = "true";
       }
+    });
+  });
+  document.addEventListener("keyup", (e) => {
+    BUTTONS.forEach((button) => {
+      button.ariaPressed = "false";
     });
   });
 }
