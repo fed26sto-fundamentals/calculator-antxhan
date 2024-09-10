@@ -9,9 +9,6 @@ let ERROR;
 
 // GLOBAL VARIABLES --------------------------------------------
 
-const IPHONE_WIDTH = 1179; //px
-const SCALE_FACTOR = 3.5;
-const CALCULATOR = document.querySelector(".calculator");
 const DISPLAY = document.querySelector(".display");
 const BUTTONS = document.querySelectorAll("button");
 const OPERATORS = document.querySelectorAll(".operator");
@@ -378,19 +375,9 @@ function handleBackspace() {
 // UTIL FUNCTIONS ----------------------------------------------
 
 function init() {
-  CALCULATOR.style.width = calculateWidth();
   initKeyboard();
   handleClear();
   updateDisplay();
-}
-
-function calculateWidth() {
-  const windowWidth = window.innerWidth;
-  const maxWidth = IPHONE_WIDTH / SCALE_FACTOR;
-  if (windowWidth < 431) {
-    return `${windowWidth}px`;
-  }
-  return `${maxWidth}px`;
 }
 
 function initKeyboard() {
