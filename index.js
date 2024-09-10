@@ -51,7 +51,7 @@ function updateDisplay() {
     if (!RIGHT_OPERAND) {
       DISPLAY.textContent = LEFT_OPERAND;
     } else {
-      DISPLAY.textContent = RIGHT_OPERAND;
+      DISPLAY.textContent = prettify(RIGHT_OPERAND);
     }
   }
   adjustFontSize();
@@ -64,7 +64,6 @@ BUTTONS.forEach((button) => {
     const btn = e.currentTarget;
     switch (btn.className) {
       case "digit": {
-        console.log("you pressed:", btn.value);
         resetOperatorsHighlight();
         handleDigit(btn.value);
         break;
@@ -269,16 +268,34 @@ function handleDecimal() {
   }
   if (DISPLAY_TOTAL) {
     if (LEFT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      console.log("can't add decimals");
-      return;
+      if (LEFT_OPERAND.slice(0, 1) === "-") {
+        // negative num
+        let thing = LEFT_OPERAND.slice(1);
+        if (thing.length >= MAX_DIGITS) {
+          console.log("1. can't add decimals");
+          return;
+        }
+      } else {
+        console.log("2. can't add decimals");
+        return;
+      }
     }
     if (!LEFT_OPERAND.includes(".")) {
       LEFT_OPERAND = LEFT_OPERAND + ".";
     }
   } else {
     if (RIGHT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      console.log("can't add decimals");
-      return;
+      if (RIGHT_OPERAND.slice(0, 1) === "-") {
+        // negative num
+        let thing = RIGHT_OPERAND.slice(1);
+        if (thing.length >= MAX_DIGITS) {
+          console.log("1. can't add decimals");
+          return;
+        }
+      } else {
+        console.log("2. can't add decimals");
+        return;
+      }
     }
     if (!RIGHT_OPERAND.includes(".")) {
       RIGHT_OPERAND = RIGHT_OPERAND + ".";
@@ -294,7 +311,7 @@ function handleCopy() {
   try {
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
-    console.log("Copied" + r);
+    // console.log("Copied" + r);
   } catch (err) {
     console.log("Unable to copy!");
   }
@@ -440,8 +457,8 @@ function prettify(value) {
       .split("")
       .reverse()
       .join("");
-    console.log("bathc:", batch);
-    console.log("BL:", batch.length);
+    // console.log("bathc:", batch);
+    // console.log("BL:", batch.length);
     if (batch.length === 3 && i + 3 <= integer.length) {
       prettyInteger = " " + batch + prettyInteger;
     } else {
@@ -562,52 +579,6 @@ function convertToExponential(value) {
   } else {
     return value;
   }
-
-  // let fractionDigits = 6;
-  // if (value.includes(".")) {
-  //   // it's a floating number
-  //   let parts = value.split(".");
-  //   let integer = parts[0];
-  //   console.log("intereget:", integer);
-  //   let decimals = parts[1];
-  //   // digit amount (distance) between first digit and decimal point
-  //   let distance =
-  //     integer.slice(0, 1) === "-" ? integer.length - 2 : integer.length - 1;
-  //   console.log("val:", value);
-  //   console.log("distance:", distance);
-  //   if (distance > 9 && 100 > distance) {
-  //     fractionDigits = 5;
-  //   } else if (distance > 99) {
-  //     fractionDigits = 4;
-  //   }
-  //   if (decimals.includes("e")) {
-  //     fractionDigits = fractionDigits - 1;
-  //     console.log("this:", decimals.slice(decimals.length - 2));
-  //     if (+decimals.slice(decimals.length - 2) > 99) {
-  //       fractionDigits = fractionDigits - 1;
-  //     }
-  //   }
-  // }
-  //   let finalValue;
-  //   if (value.slice(0, 1) === "-") {
-  //     // negative number
-  //     if (value.slice(1).split(".").join("").length > MAX_DIGITS) {
-  //       // still more than 9 digits
-  //       return (+value).toExponential(fractionDigits).toString();
-  //     } else {
-  //       // less than or equal to 9 numbers
-  //       return value;
-  //     }
-  //   } else {
-  //     // positive number
-  //     finalValue = (+value).toExponential(fractionDigits).toString();
-  //     const preE = finalValue.split("e")[0];
-  //     console.log("preE:", preE);
-  //     console.log("finalVal:", finalValue);
-  //     return (+value).toExponential(fractionDigits).toString();
-  //   }
-  // } else {
-  //   return value;
 }
 
 function minimizeFontSize(textWidth, displayWidth, fontSize) {
