@@ -6,7 +6,7 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 
 - [ ] feat(style): hover state + dragging finger across the buttons does a hover effect.
 - [ ] refactor: make code better.
-- [ ] refactor: the display text should be a text input, makes the copy function more safe and simple.
+- [ ] refactor: the display text could be a text input, might make the copy function more safe and simple.
 - [ ] feat: copy function on mobile.
 - [ ] feat: user should be able to paste.
 - [ ] fix: on the phone, when typing: 99 999 999,9 then pressing the negative toggle it rounds to -100 000 000;
