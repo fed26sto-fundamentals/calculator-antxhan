@@ -269,6 +269,9 @@ footer > p > a {
 /* MEDIA QUERIES ----------------------------------- */
 
 @media (max-width: 450px) {
+  :root {
+    --button-gap: calc((var(--calculator-width) * 0.05));
+  }
   body {
     overflow: hidden;
   }

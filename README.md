@@ -7,7 +7,6 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] feat(style): hover / active effects. should also work on keyboard input.
 - [ ] feat(style): dragging finger across the buttons does a hover effect.
 - [ ] fix: font sizes on desktop vs mobile.
-- [ ] fix: slightly larger button gap on mobile.
 - [ ] refactor: make code better.
 - [ ] refactor: the display text should be a text input, makes the copy function more safe and simple.
 - [ ] feat: tooltips for backspace and copy button.
