@@ -6,7 +6,8 @@
   --button-cols: 4;
   --button-rows: 5;
   --calculator-width: calc(var(--iphone-width) / 4);
-  --button-gap: 0.67rem;
+  /* --button-gap: 0.67rem; */
+  --button-gap: calc((var(--calculator-width) * 0.04));
   --button-gaps: calc((var(--button-cols) - 1) / var(--button-cols));
   --button-width: calc(
     (var(--calculator-width) / var(--button-cols)) -
@@ -57,11 +58,17 @@ main {
   align-items: center;
 }
 
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .calculator {
   width: var(--calculator-width);
   display: flex;
   flex-direction: column;
-  outline: 1px solid green;
+  /* outline: 1px solid green; */
   padding-inline: var(--button-gap);
 }
 
@@ -69,13 +76,13 @@ main {
 
 .display {
   text-align: right;
-  margin-inline: 1rem;
+  margin-inline: 1.5rem;
   align-content: center;
   height: 96px;
   text-wrap: nowrap;
   font-weight: lighter;
   font-size: 80px;
-  outline: 1px solid yellow;
+  /* outline: 1px solid yellow; */
 }
 
 .display-wrapper:hover .display-buttons {
@@ -83,10 +90,9 @@ main {
 }
 
 .display-buttons {
-  /* visibility: hidden; */
+  visibility: hidden;
   align-items: center;
   display: flex;
-  /* background: red; */
 }
 
 .display-buttons button {
@@ -123,15 +129,9 @@ main {
 .buttons {
   display: grid;
   grid-template-columns: repeat(var(--button-cols), 1fr);
-  outline: 1px solid pink;
+  /* outline: 1px solid pink; */
   gap: var(--button-gap);
   font-size: var(--fs-normal);
-}
-
-button {
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .buttons button {
@@ -144,6 +144,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   & svg {
     width: var(--fs-normal);
     height: var(--fs-normal);
@@ -188,50 +189,63 @@ button.equals {
 
 /* BUTTON STATES ------------------------------------ */
 
-/*
-button::before {
+.buttons button::before {
   content: "";
   background-color: var(--clr-neutral-000);
   width: 100%;
   aspect-ratio: 1;
   border-radius: 100vw;
-  display: block;
-  color: var(--clr-neutral-000);
   position: absolute;
-  opacity: 0;
-  z-index: 1;
-  &:hover {
-    cursor: pointer;
-  }
+  /* transition: 0.5s; */
 }
 
 button[value="0"]::before {
+  content: "";
+  background-color: var(--clr-neutral-000);
+  width: calc(200% + var(--button-gap));
+  height: 100%;
+  left: 0;
   aspect-ratio: 2;
+  border-radius: 100vw;
+  position: absolute;
 }
 
-button:not([aria-current="true"]):hover::before {
-  opacity: 0.1;
+.buttons button::before {
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Set transition for fading out */
 }
 
-button:not([aria-current="true"]):active::before {
-  opacity: 0.5;
+.buttons button:not([aria-current="true"]):hover::before {
+  /* opacity: 0.33; */
 }
 
-button[aria-current="true"] {
-  background-color: var(--clr-neutral-000) !important;
+.buttons button:active::before {
+  opacity: 0.33;
+  transition: opacity 0s; /* Remove transition on active state to make it instant */
+}
+
+/* .buttons button:active:hover::before {
+  opacity: 0;
+  transition: opacity 0s;
+} */
+
+button[aria-current="false"] {
+  background-color: var(--clr-primary);
+  transition: 0.5s;
   & svg {
-    color: var(--clr-primary) !important;
+    color: var(--clr-neutral-000);
+    transition: 0.5s;
   }
 }
 
-svg {
-  stroke-width: 2.25;
+button[aria-current="true"] {
+  background-color: var(--clr-neutral-000);
+  transition: 0.5s;
+  & svg {
+    color: var(--clr-primary);
+    transition: 0.5s;
+  }
 }
-
-button:not([aria-current="true"]):hover::before .backspace svg {
-  width: 1.75rem;
-}
-
 
 /* FOOTER ------------------------------------------ */
 
