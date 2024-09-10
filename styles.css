@@ -136,6 +136,10 @@ svg {
   stroke-width: 2.25;
 }
 
+.display-buttons svg {
+  stroke-width: 2;
+}
+
 button {
   border: none;
   z-index: 10;
