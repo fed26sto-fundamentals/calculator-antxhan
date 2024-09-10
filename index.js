@@ -111,7 +111,6 @@ BUTTONS.forEach((button) => {
 });
 
 function handleDigit(digit) {
-  CLEAR_BUTTON.textContent = "C";
   if (ERROR) {
     handleClear();
     LEFT_OPERAND = digit;
@@ -123,8 +122,14 @@ function handleDigit(digit) {
   } else {
     if (DISPLAY_TOTAL) {
       LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
+      if (LEFT_OPERAND !== "0" && digit !== "0") {
+        CLEAR_BUTTON.textContent = "C";
+      }
     } else {
       RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
+      if (RIGHT_OPERAND !== "0" && digit !== "0") {
+        CLEAR_BUTTON.textContent = "C";
+      }
     }
   }
 }

@@ -9,9 +9,7 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] refactor: remove random comments and console.log
 - [ ] fix: can't add comma if "-88 888 888", it thinks there's too many digits
 - [ ] refactor: the display text should be a text input, makes the copy function more safe and simple.
+- [ ] feat: tooltips for backspace and copy button.
+- [ ] fix: font sizes on desktop vs mobile.
 - [ ] feat: copy function on mobile.
 - [ ] feat: user should be able to paste.
-- [ ] fix: when pressing 0 at init state it shouldn't change the C button to C, it should stay AC.
-- [ ] feat: tooltips for backspace and copy button.
-- [ ] fix: make sure button / svg click propagation works properly.
-- [ ] fix: font sizes on desktop vs mobile.
