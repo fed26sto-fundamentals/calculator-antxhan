@@ -607,7 +607,7 @@ function adjustFontSize() {
   console.log(windowWidth);
   let maxFontSize = 72;
   if (windowWidth < 431) {
-    maxFontSize = 96;
+    maxFontSize = 80;
   }
   let displayWidth = DISPLAY.offsetWidth;
   let textWidth = DISPLAY.scrollWidth;
