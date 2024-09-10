@@ -45,7 +45,7 @@ body {
 }
 
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   /* font-size: var(--fs-normal); */
   display: flex;
   flex-direction: column;
@@ -82,7 +82,6 @@ button {
   height: 7rem;
   text-wrap: nowrap;
   font-weight: lighter;
-  /* font-size: 80px; */
   font-size: 72px;
   /* outline: 1px solid yellow; */
 }
@@ -213,6 +212,7 @@ button.equals {
   & svg {
     width: 1.5rem;
     height: 1.5rem;
+    stroke-width: 2.5;
   }
 }
 
@@ -318,6 +318,7 @@ footer > p > a {
   .display {
     font-size: 80px;
     margin-inline: 1rem;
+    height: 8rem;
   }
 
   button.digit {
