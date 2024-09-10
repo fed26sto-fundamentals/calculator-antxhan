@@ -70,6 +70,7 @@ button {
   flex-direction: column;
   /* outline: 1px solid green; */
   padding-inline: var(--button-gap);
+  padding-block: 2rem;
 }
 
 /* DISPLAY -------------------------------------- */
@@ -90,7 +91,7 @@ button {
 }
 
 .display-buttons {
-  visibility: hidden;
+  /* visibility: hidden; */
   align-items: center;
   display: flex;
 }
@@ -104,13 +105,23 @@ button {
   justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
+  position: relative;
+  text-align: center;
+  /* transition: color 50ms; */
 }
 
-.display-buttons span {
+.display-buttons > span {
   visibility: hidden;
   margin-left: auto;
   font-size: 1rem;
   color: var(--clr-neutral-500);
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: -1.25rem;
+  color: var(--clr-neutral-400);
 }
 
 .display-buttons button:hover {
@@ -118,6 +129,13 @@ button {
   &::before {
     opacity: 0;
   }
+  & .tooltip {
+    visibility: visible;
+  }
+}
+
+.display-buttons button:active {
+  color: var(--clr-neutral-500);
 }
 
 .copy svg {
@@ -255,7 +273,8 @@ footer {
   font-size: 1rem;
   justify-content: center;
   align-items: center;
-  height: min(10%, 4rem);
+  /* height: max(10vh, 4rem); */
+  min-height: 4rem;
 }
 
 footer > p {
@@ -282,8 +301,15 @@ footer > p > a {
   }
   .calculator {
     width: 100%;
+    padding-block: 0;
   }
   .display-buttons {
     display: none;
+  }
+}
+
+@media (max-height: 630px) {
+  body {
+    overflow: initial;
   }
 }

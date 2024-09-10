@@ -8,6 +8,5 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] fix: font sizes on desktop vs mobile.
 - [ ] refactor: make code better.
 - [ ] refactor: the display text should be a text input, makes the copy function more safe and simple.
-- [ ] feat: tooltips for backspace and copy button.
 - [ ] feat: copy function on mobile.
 - [ ] feat: user should be able to paste.

@@ -315,7 +315,7 @@ function handleCopy() {
   } catch (err) {
     console.log("Unable to copy!");
   }
-  const copyMessage = document.querySelector(".display-buttons span");
+  const copyMessage = document.querySelector(".display-message");
   copyMessage.style.visibility = "visible";
   setTimeout(hideCopiedMessage, 1000);
 }
@@ -519,7 +519,7 @@ function resetOperatorsHighlight() {
 }
 
 function hideCopiedMessage() {
-  const copyMessage = document.querySelector(".display-buttons span");
+  const copyMessage = document.querySelector(".display-message");
   copyMessage.style.visibility = "hidden";
 }
 
