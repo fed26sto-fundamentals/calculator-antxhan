@@ -15,7 +15,7 @@
   );
 
   /* FONT SIZES */
-  --fs-normal: 2.25rem;
+  --fs-normal: 2rem;
   --fs-large: 5rem;
 
   /* COLORS */
@@ -79,10 +79,11 @@ button {
   text-align: right;
   margin-inline: 1.5rem;
   align-content: center;
-  height: 96px;
+  height: 7rem;
   text-wrap: nowrap;
   font-weight: lighter;
-  font-size: 80px;
+  /* font-size: 80px; */
+  font-size: 72px;
   /* outline: 1px solid yellow; */
 }
 
@@ -198,11 +199,21 @@ button.negative,
 button.clear {
   background-color: var(--clr-neutral-500);
   color: var(--clr-neutral-900);
+  font-size: 1.5rem;
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
 button.operator,
 button.equals {
   background-color: var(--clr-primary);
+  font-size: 1.5rem;
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
 /* BUTTON STATES ------------------------------------ */
@@ -303,6 +314,27 @@ footer > p > a {
     width: 100%;
     padding-block: 0;
   }
+
+  .display {
+    font-size: 80px;
+    margin-inline: 1rem;
+  }
+
+  button.digit {
+    font-size: 2.5rem;
+  }
+  button.percent,
+  button.negative,
+  button.clear,
+  button.operator,
+  button.equals {
+    font-size: 2rem;
+    & svg {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+
   .display-buttons {
     display: none;
   }

@@ -603,6 +603,12 @@ function minimizeFontSize(textWidth, displayWidth, fontSize) {
 }
 
 function adjustFontSize() {
+  let windowWidth = window.innerWidth;
+  console.log(windowWidth);
+  let maxFontSize = 72;
+  if (windowWidth < 431) {
+    maxFontSize = 96;
+  }
   let displayWidth = DISPLAY.offsetWidth;
   let textWidth = DISPLAY.scrollWidth;
   let fontSize = parseInt(window.getComputedStyle(DISPLAY).fontSize);
@@ -610,7 +616,7 @@ function adjustFontSize() {
   if (textWidth > displayWidth) {
     minimizeFontSize(textWidth, displayWidth, fontSize);
   } else if (textWidth <= displayWidth) {
-    while (textWidth <= displayWidth && fontSize < 80) {
+    while (textWidth <= displayWidth && fontSize < maxFontSize) {
       console.log("MAXIMIZING");
       fontSize += 1;
       DISPLAY.style.fontSize = fontSize + "px";
