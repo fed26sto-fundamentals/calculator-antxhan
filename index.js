@@ -61,16 +61,17 @@ function updateDisplay() {
 
 BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
-    switch (e.target.className) {
+    const btn = e.currentTarget;
+    switch (btn.className) {
       case "digit": {
-        console.log("you pressed:", e.target.value);
+        console.log("you pressed:", btn.value);
         resetOperatorsHighlight();
-        handleDigit(e.target.value);
+        handleDigit(btn.value);
         break;
       }
       case "operator": {
         resetOperatorsHighlight();
-        handleOperator(e.target);
+        handleOperator(btn);
         return;
       }
       case "equals": {
