@@ -208,13 +208,13 @@ function handleNegative() {
     return;
   }
   if (DISPLAY_TOTAL) {
-    if (LEFT_OPERAND.slice(0, 1) === "-") {
+    if (isNegative(LEFT_OPERAND)) {
       LEFT_OPERAND = LEFT_OPERAND.slice(1);
     } else {
       LEFT_OPERAND = "-" + LEFT_OPERAND;
     }
   } else {
-    if (RIGHT_OPERAND.slice(0, 1) === "-") {
+    if (isNegative(RIGHT_OPERAND)) {
       RIGHT_OPERAND = RIGHT_OPERAND.slice(1);
     } else {
       if (!RIGHT_OPERAND) {
@@ -268,7 +268,7 @@ function handleDecimal() {
   }
   if (DISPLAY_TOTAL) {
     if (LEFT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      if (LEFT_OPERAND.slice(0, 1) === "-") {
+      if (isNegative(LEFT_OPERAND)) {
         // negative num
         let thing = LEFT_OPERAND.slice(1);
         if (thing.length >= MAX_DIGITS) {
@@ -285,7 +285,7 @@ function handleDecimal() {
     }
   } else {
     if (RIGHT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      if (RIGHT_OPERAND.slice(0, 1) === "-") {
+      if (isNegative(RIGHT_OPERAND)) {
         // negative num
         let thing = RIGHT_OPERAND.slice(1);
         if (thing.length >= MAX_DIGITS) {
@@ -326,7 +326,7 @@ function handleBackspace() {
     return;
   }
   if (DISPLAY_TOTAL) {
-    if (LEFT_OPERAND.slice(0, 1) === "-") {
+    if (isNegative(LEFT_OPERAND)) {
       if (LEFT_OPERAND === "-0") {
         LEFT_OPERAND = "0";
         return;
@@ -360,7 +360,7 @@ function handleBackspace() {
       });
       return;
     }
-    if (RIGHT_OPERAND.slice(0, 1) === "-") {
+    if (isNegative(RIGHT_OPERAND)) {
       if (RIGHT_OPERAND === "-0") {
         RIGHT_OPERAND = "0";
         // make it highlight the selected operator button again
@@ -450,6 +450,7 @@ function initKeyboard() {
 }
 
 function isNegative(value) {
+  // string
   return value.slice(0, 1) === "-";
 }
 
@@ -579,7 +580,7 @@ function setFractionDigits(value) {
 
 function calculateValueLength(value) {
   let valueLength = value.split(".").join("").length;
-  valueLength = value.slice(0, 1) === "-" ? valueLength - 1 : valueLength;
+  valueLength = isNegative(value) ? valueLength - 1 : valueLength;
   return valueLength;
 }
 
