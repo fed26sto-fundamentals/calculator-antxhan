@@ -191,6 +191,7 @@ function handleClear() {
     if (DISPLAY_TOTAL) {
       LEFT_OPERAND = "0";
     } else {
+      if (OPERATOR) reHighlightOperator();
       RIGHT_OPERAND = "0";
     }
   }
@@ -376,17 +377,10 @@ function enterDigit(digit, operand) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
-  if (operand === "0") {
-    operand = digit;
-  } else if (operand === "-0") {
-    operand = "-" + digit;
-  } else {
-    operand = operand + digit;
-  }
-  if (operand !== "0" && digit !== "0") {
-    CLEAR_BUTTON.textContent = "C";
-  }
-  return operand;
+  if (digit !== "0") CLEAR_BUTTON.textContent = "C";
+  if (operand === "0") return digit;
+  if (operand === "-0") return "-" + digit;
+  return operand + digit;
 }
 
 function makePercentage(operand) {
