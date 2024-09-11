@@ -258,6 +258,18 @@ function handlePercent() {
   }
 }
 
+function addDecimal(operand) {
+  if (calculateValueLength(operand) >= MAX_DIGITS) {
+    console.log("can't add decimals");
+    return operand;
+  }
+  if (operand.includes(".")) {
+    console.log("already has a decimal");
+    return operand;
+  }
+  return operand + ".";
+}
+
 function handleDecimal() {
   CLEAR_BUTTON.textContent = "C";
   if (DISPLAYING_TOTAL) {
@@ -267,39 +279,9 @@ function handleDecimal() {
     return;
   }
   if (DISPLAY_TOTAL) {
-    if (LEFT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      if (isNegative(LEFT_OPERAND)) {
-        // negative num
-        let thing = LEFT_OPERAND.slice(1);
-        if (thing.length >= MAX_DIGITS) {
-          console.log("1. can't add decimals");
-          return;
-        }
-      } else {
-        console.log("2. can't add decimals");
-        return;
-      }
-    }
-    if (!LEFT_OPERAND.includes(".")) {
-      LEFT_OPERAND = LEFT_OPERAND + ".";
-    }
+    LEFT_OPERAND = addDecimal(LEFT_OPERAND);
   } else {
-    if (RIGHT_OPERAND.split(".").join("").length >= MAX_DIGITS) {
-      if (isNegative(RIGHT_OPERAND)) {
-        // negative num
-        let thing = RIGHT_OPERAND.slice(1);
-        if (thing.length >= MAX_DIGITS) {
-          console.log("1. can't add decimals");
-          return;
-        }
-      } else {
-        console.log("2. can't add decimals");
-        return;
-      }
-    }
-    if (!RIGHT_OPERAND.includes(".")) {
-      RIGHT_OPERAND = RIGHT_OPERAND + ".";
-    }
+    RIGHT_OPERAND = addDecimal(RIGHT_OPERAND);
   }
 }
 
@@ -494,7 +476,8 @@ function prettify(value) {
 
 function enterDigit(digit, operand) {
   let operandLength;
-  if (Math.sign(+operand) === -1 || Math.sign(+operand) === -0) {
+  if (isNegative(operand)) {
+    // if (Math.sign(+operand) === -1 || Math.sign(+operand) === -0) {
     operandLength = operand.slice(1).split(".").join("").length;
   } else {
     operandLength = operand.split(".").join("").length;
@@ -579,8 +562,10 @@ function setFractionDigits(value) {
 }
 
 function calculateValueLength(value) {
+  console.log("value:", value);
   let valueLength = value.split(".").join("").length;
   valueLength = isNegative(value) ? valueLength - 1 : valueLength;
+  console.log("valueLengt:", valueLength);
   return valueLength;
 }
 
