@@ -259,6 +259,22 @@ function handleBackspace() {
     return;
   }
   if (DISPLAY_TOTAL) {
+    LEFT_OPERAND = commitBackspace(LEFT_OPERAND);
+  } else {
+    if (!RIGHT_OPERAND) {
+      console.log("nothing to delete");
+      return;
+    }
+    RIGHT_OPERAND = commitBackspace(RIGHT_OPERAND);
+  }
+}
+
+function handleBackspace1() {
+  if (DISPLAYING_TOTAL) {
+    console.log("can't backspace the result");
+    return;
+  }
+  if (DISPLAY_TOTAL) {
     if (isNegative(LEFT_OPERAND)) {
       if (LEFT_OPERAND === "-0") {
         LEFT_OPERAND = "0";
@@ -468,6 +484,9 @@ function makePercentage(operand) {
 }
 
 function addDecimal(operand) {
+  if (!operand) {
+    return "0.";
+  }
   if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("can't add decimals");
     return operand;
@@ -477,6 +496,26 @@ function addDecimal(operand) {
     return operand;
   }
   return operand + ".";
+}
+
+function reHighlightOperator() {
+  OPERATORS.forEach((button) => {
+    if (button.value === OPERATOR) {
+      button.setAttribute("aria-current", "true");
+    }
+  });
+}
+
+function commitBackspace(operand) {
+  if (
+    (isNegative(operand) && operand === "-0") ||
+    (!isNegative(operand) && operand.length === 1) ||
+    (!isNegative(operand) && operand.length === 2 && operand.slice(1) === ".")
+  ) {
+    if (!DISPLAY_TOTAL) reHighlightOperator();
+    return "0";
+  } else if (isNegative(operand) && operand.length === 2) return "-0";
+  return operand.slice(0, operand.length - 1);
 }
 
 function resetOperatorsHighlight() {
