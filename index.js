@@ -495,16 +495,11 @@ function setFractionDigits(value, fractionDigits = 6) {
 }
 
 function absoluteValueLength(value) {
-  let absoluteValue = value;
   const charsToIgnore = [".", "+", "-"];
   charsToIgnore.forEach((char) => {
-    absoluteValue = absoluteValue.replaceAll(char, "");
+    value = value.replaceAll(char, "");
   });
-  // let valueLength = value.split(".").join("").length;
-  // valueLength = isNegative(value) ? valueLength - 1 : valueLength;
-  // return valueLength;
-  console.log("absoluteValue:", absoluteValue);
-  return absoluteValue.length;
+  return value.length;
 }
 
 function convertToExp(value) {
