@@ -42,6 +42,7 @@ body {
   height: 100%;
   background-color: var(--clr-neutral-900);
   color: var(--clr-neutral-000);
+  touch-action: manipulation;
 }
 
 body {
@@ -163,6 +164,10 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   & svg {
     width: var(--fs-normal);
     height: var(--fs-normal);
