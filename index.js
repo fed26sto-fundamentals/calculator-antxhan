@@ -52,6 +52,7 @@ function updateDisplay() {
 function setDisplayText(operand) {
   if (!DISPLAY_TOTAL && !RIGHT_OPERAND) return LEFT_OPERAND;
   if (absoluteValueLength(operand) > MAX_DIGITS) return convertToExp(operand);
+  if (operand.includes("e")) return operand;
   return prettify(operand);
 }
 
@@ -461,23 +462,24 @@ function operate(operation) {
   LEFT_OPERAND = operation.toString();
 }
 
-function setFractionDigits(value) {
-  let fractionDigits = 6;
+function setFractionDigits(value, fractionDigits = 6) {
+  // let fractionDigits = 6;
   value = (+value).toExponential(fractionDigits).toString();
+  console.log("VAL 1:", value);
   let coefficient = value.split("e")[0];
+  console.log("COEFF LEN:", coefficient.length);
   let exponent = value.split("e")[1];
 
+  // iterating each digit in the coefficient in reverse order
+  // until it finds the first non-zero digit.
   for (let i = coefficient.length - 1; i > 0; i--) {
-    let digit = coefficient[i];
-    if (digit === "0") {
-      fractionDigits -= 1;
-      continue;
-    } else if (digit !== "0") {
-      break;
-    }
+    if (coefficient[i] !== "0") break;
+    console.log("deleting a FD ");
+    fractionDigits -= 1;
   }
 
-  // Checking if still need to reduce fractionDigits
+  // Checking if it needs to remove extra fractionDigits
+  // because of exponent length.
   value = (+value).toExponential(fractionDigits).toString();
   coefficient = value.split("e")[0];
   exponent = value.split("e")[1];
@@ -487,13 +489,22 @@ function setFractionDigits(value) {
     fractionDigits -= fullLength - MAX_DIGITS;
   }
   fractionDigits = fractionDigits < 0 ? 0 : fractionDigits;
+
+  console.log("FD:", fractionDigits);
   return fractionDigits;
 }
 
 function absoluteValueLength(value) {
-  let valueLength = value.split(".").join("").length;
-  valueLength = isNegative(value) ? valueLength - 1 : valueLength;
-  return valueLength;
+  let absoluteValue = value;
+  const charsToIgnore = [".", "+", "-"];
+  charsToIgnore.forEach((char) => {
+    absoluteValue = absoluteValue.replaceAll(char, "");
+  });
+  // let valueLength = value.split(".").join("").length;
+  // valueLength = isNegative(value) ? valueLength - 1 : valueLength;
+  // return valueLength;
+  console.log("absoluteValue:", absoluteValue);
+  return absoluteValue.length;
 }
 
 function convertToExp(value) {
