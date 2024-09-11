@@ -258,18 +258,6 @@ function handlePercent() {
   }
 }
 
-function addDecimal(operand) {
-  if (calculateValueLength(operand) >= MAX_DIGITS) {
-    console.log("can't add decimals");
-    return operand;
-  }
-  if (operand.includes(".")) {
-    console.log("already has a decimal");
-    return operand;
-  }
-  return operand + ".";
-}
-
 function handleDecimal() {
   CLEAR_BUTTON.textContent = "C";
   if (DISPLAYING_TOTAL) {
@@ -475,14 +463,7 @@ function prettify(value) {
 }
 
 function enterDigit(digit, operand) {
-  let operandLength;
-  if (isNegative(operand)) {
-    // if (Math.sign(+operand) === -1 || Math.sign(+operand) === -0) {
-    operandLength = operand.slice(1).split(".").join("").length;
-  } else {
-    operandLength = operand.split(".").join("").length;
-  }
-  if (operandLength >= MAX_DIGITS) {
+  if (calculateValueLength(operand) >= MAX_DIGITS) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
@@ -494,6 +475,18 @@ function enterDigit(digit, operand) {
     operand = operand + digit;
   }
   return operand;
+}
+
+function addDecimal(operand) {
+  if (calculateValueLength(operand) >= MAX_DIGITS) {
+    console.log("can't add decimals");
+    return operand;
+  }
+  if (operand.includes(".")) {
+    console.log("already has a decimal");
+    return operand;
+  }
+  return operand + ".";
 }
 
 function resetOperatorsHighlight() {
