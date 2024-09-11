@@ -497,7 +497,7 @@ function absoluteValueLength(value) {
 
 function convertToExp(value) {
   const fractionDigits = setFractionDigits(value);
-  return (+value).toExponential(fractionDigits).toString();
+  return (+value).toExponential(fractionDigits).toString().replace("+", "");
 }
 
 function minimizeFontSize(textWidth, displayWidth, fontSize) {
