@@ -243,7 +243,6 @@ function handleCopy() {
   try {
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
-    // console.log("Copied" + r);
   } catch (err) {
     console.log("Unable to copy!");
   }
@@ -342,8 +341,6 @@ function prettify(value) {
       .split("")
       .reverse()
       .join("");
-    // console.log("bathc:", batch);
-    // console.log("BL:", batch.length);
     if (batch.length === 3 && i + 3 <= integer.length) {
       prettyInteger = " " + batch + prettyInteger;
     } else {
