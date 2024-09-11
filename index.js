@@ -462,35 +462,27 @@ function operate(operation) {
   LEFT_OPERAND = operation.toString();
 }
 
-function setFractionDigits(value, fractionDigits = 6) {
-  // let fractionDigits = 6;
-  value = (+value).toExponential(fractionDigits).toString();
-  console.log("VAL 1:", value);
-  let coefficient = value.split("e")[0];
-  console.log("COEFF LEN:", coefficient.length);
-  let exponent = value.split("e")[1];
-
-  // iterating each digit in the coefficient in reverse order
-  // until it finds the first non-zero digit.
+function removeZeros(coefficient) {
+  let fractionDigitsToRemove = 0;
   for (let i = coefficient.length - 1; i > 0; i--) {
     if (coefficient[i] !== "0") break;
-    console.log("deleting a FD ");
-    fractionDigits -= 1;
+    fractionDigitsToRemove += 1;
   }
+  return fractionDigitsToRemove;
+}
 
-  // Checking if it needs to remove extra fractionDigits
-  // because of exponent length.
-  value = (+value).toExponential(fractionDigits).toString();
-  coefficient = value.split("e")[0];
-  exponent = value.split("e")[1];
-  let coefficientLength = absoluteValueLength(coefficient);
-  let fullLength = coefficientLength + exponent.length;
-  if (fullLength > MAX_DIGITS) {
-    fractionDigits -= fullLength - MAX_DIGITS;
-  }
+function setFractionDigits(value, fractionDigits = 6) {
   fractionDigits = fractionDigits < 0 ? 0 : fractionDigits;
-
-  console.log("FD:", fractionDigits);
+  value = (+value).toExponential(fractionDigits).toString();
+  let coefficient = value.split("e")[0];
+  if (coefficient.slice(-1) === "0") {
+    fractionDigits -= removeZeros(coefficient);
+    return setFractionDigits(value, fractionDigits);
+  }
+  if (absoluteValueLength(value) > MAX_DIGITS) {
+    fractionDigits -= absoluteValueLength(value) - MAX_DIGITS;
+    return setFractionDigits(value, fractionDigits);
+  }
   return fractionDigits;
 }
 
@@ -518,7 +510,6 @@ function minimizeFontSize(textWidth, displayWidth, fontSize) {
 
 function adjustFontSize() {
   let windowWidth = window.innerWidth;
-  console.log(windowWidth);
   let maxFontSize = 72;
   if (windowWidth < 431) {
     maxFontSize = 88;
