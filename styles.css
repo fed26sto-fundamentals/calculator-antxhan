@@ -1,0 +1,349 @@
+:root {
+  /* SIZES */
+  --iphone-width: 1179px;
+  --iphone-height: 2556px;
+  /* --calculator-width: min(min(calc(var(--iphone-width)), 431px), 100%); */
+  --button-cols: 4;
+  --button-rows: 5;
+  --calculator-width: calc(var(--iphone-width) / 4);
+  /* --button-gap: 0.67rem; */
+  --button-gap: calc((var(--calculator-width) * 0.04));
+  --button-gaps: calc((var(--button-cols) - 1) / var(--button-cols));
+  --button-width: calc(
+    (var(--calculator-width) / var(--button-cols)) -
+      calc(var(--button-gap) * var(--button-gaps))
+  );
+
+  /* FONT SIZES */
+  --fs-normal: 2rem;
+  --fs-large: 5rem;
+
+  /* COLORS */
+  --clr-neutral-000: #fff;
+  --clr-neutral-500: #a5a5a5;
+  --clr-neutral-400: #5b5b5b;
+  --clr-neutral-300: #333333;
+  --clr-neutral-900: #000;
+  --clr-primary: #ff9812;
+}
+
+/* GLOBAL -------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--clr-neutral-900);
+  color: var(--clr-neutral-000);
+  touch-action: manipulation;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  /* font-size: var(--fs-normal); */
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.calculator {
+  width: var(--calculator-width);
+  display: flex;
+  flex-direction: column;
+  /* outline: 1px solid green; */
+  padding-inline: var(--button-gap);
+  padding-block: 2rem;
+}
+
+/* DISPLAY -------------------------------------- */
+
+.display {
+  text-align: right;
+  margin-inline: 1.5rem;
+  align-content: center;
+  height: 7rem;
+  text-wrap: nowrap;
+  font-weight: lighter;
+  font-size: 72px;
+  /* outline: 1px solid yellow; */
+}
+
+.display-wrapper:hover .display-buttons {
+  visibility: visible;
+}
+
+.display-buttons {
+  visibility: hidden;
+  align-items: center;
+  display: flex;
+}
+
+.display-buttons button {
+  background: none;
+  border: none;
+  color: var(--clr-neutral-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  position: relative;
+  text-align: center;
+  /* transition: color 50ms; */
+}
+
+.display-buttons > span {
+  visibility: hidden;
+  margin-left: auto;
+  font-size: 1rem;
+  color: var(--clr-neutral-500);
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: -1.25rem;
+  color: var(--clr-neutral-400);
+}
+
+.display-buttons button:hover {
+  color: var(--clr-neutral-000);
+  &::before {
+    opacity: 0;
+  }
+  & .tooltip {
+    visibility: visible;
+  }
+}
+
+.display-buttons button:active {
+  color: var(--clr-neutral-500);
+}
+
+.copy svg {
+  width: 1.25rem;
+}
+
+/* GRID BUTTONS ------------------------------ */
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(var(--button-cols), 1fr);
+  /* outline: 1px solid pink; */
+  gap: var(--button-gap);
+  font-size: var(--fs-normal);
+}
+
+.buttons button {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 100vw;
+  background-color: var(--clr-neutral-300);
+  color: inherit;
+  font-size: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  & svg {
+    width: var(--fs-normal);
+    height: var(--fs-normal);
+  }
+}
+
+.buttons button:nth-child(18) {
+  grid-column: 3;
+}
+
+.buttons button:nth-child(19) {
+  grid-column: 4;
+}
+
+button[value="0"] {
+  position: relative;
+  z-index: 1;
+}
+
+button[value="0"]::after {
+  border-radius: 100vw;
+  content: "";
+  width: calc(200% + var(--button-gap));
+  left: 0;
+  height: 100%;
+  background-color: var(--clr-neutral-300);
+  position: absolute;
+  z-index: -1;
+}
+
+button.percent,
+button.negative,
+button.clear {
+  background-color: var(--clr-neutral-500);
+  color: var(--clr-neutral-900);
+  font-size: 1.5rem;
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+button.operator,
+button.equals {
+  background-color: var(--clr-primary);
+  font-size: 1.5rem;
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke-width: 2.5;
+  }
+}
+
+/* BUTTON STATES ------------------------------------ */
+
+.buttons button::before {
+  content: "";
+  background-color: var(--clr-neutral-000);
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 100vw;
+  position: absolute;
+  /* transition: 0.5s; */
+}
+
+button[value="0"]::before {
+  content: "";
+  background-color: var(--clr-neutral-000);
+  width: calc(200% + var(--button-gap));
+  height: 100%;
+  left: 0;
+  aspect-ratio: 2;
+  border-radius: 100vw;
+  position: absolute;
+}
+
+.buttons button::before {
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Set transition for fading out */
+}
+
+.buttons button:active::before,
+.buttons button[aria-pressed="true"]::before {
+  opacity: 0.33;
+  transition: opacity 0s; /* Remove transition on active state to make it instant */
+}
+
+/* .buttons button:active:hover::before {
+  opacity: 0;
+  transition: opacity 0s;
+} */
+
+button[aria-current="false"] {
+  background-color: var(--clr-primary);
+  transition: 0.5s;
+  & svg {
+    color: var(--clr-neutral-000);
+    transition: 0.5s;
+  }
+}
+
+button[aria-current="true"] {
+  background-color: var(--clr-neutral-000);
+  transition: 0.5s;
+  & svg {
+    color: var(--clr-primary);
+    transition: 0.5s;
+  }
+}
+
+/* FOOTER ------------------------------------------ */
+
+footer {
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  /* height: max(10vh, 4rem); */
+  min-height: 4rem;
+}
+
+footer > p {
+  color: var(--clr-neutral-500);
+}
+
+footer > p > a {
+  color: var(--clr-neutral-000);
+  font-weight: bold;
+}
+
+/* MEDIA QUERIES ----------------------------------- */
+
+@media (max-width: 450px) {
+  :root {
+    --button-gap: calc((var(--calculator-width) * 0.05));
+  }
+  body {
+    overflow: hidden;
+  }
+
+  main {
+    align-items: flex-end;
+  }
+  .calculator {
+    width: 100%;
+    padding-block: 0;
+  }
+
+  .display {
+    font-size: 88px;
+    margin-inline: 1rem;
+    height: 8rem;
+  }
+
+  button.digit {
+    font-size: 2.5rem;
+  }
+  button.percent,
+  button.negative,
+  button.clear,
+  button.operator,
+  button.equals {
+    font-size: 2rem;
+    & svg {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+
+  .display-buttons {
+    display: none;
+  }
+}
+
+@media (max-height: 630px) {
+  body {
+    overflow: initial;
+  }
+}
