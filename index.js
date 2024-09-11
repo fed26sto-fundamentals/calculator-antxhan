@@ -42,7 +42,7 @@ function updateDisplay() {
     return;
   }
   if (DISPLAY_TOTAL === true) {
-    if (calculateValueLength(LEFT_OPERAND) > MAX_DIGITS) {
+    if (calculateAbsoluteValueLength(LEFT_OPERAND) > MAX_DIGITS) {
       DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
     } else {
       DISPLAY.textContent = prettify(LEFT_OPERAND);
@@ -109,7 +109,7 @@ BUTTONS.forEach((button) => {
   });
 });
 
-function handleDigit(digit) {
+function handleDigit1(digit) {
   if (ERROR) {
     handleClear();
     LEFT_OPERAND = digit;
@@ -130,6 +130,24 @@ function handleDigit(digit) {
         CLEAR_BUTTON.textContent = "C";
       }
     }
+  }
+}
+
+function handleDigit(digit) {
+  if (ERROR) {
+    handleClear();
+    LEFT_OPERAND = digit;
+    return;
+  }
+  if (DISPLAYING_TOTAL) {
+    LEFT_OPERAND = digit;
+    DISPLAYING_TOTAL = false;
+    return;
+  }
+  if (DISPLAY_TOTAL) {
+    LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
+  } else {
+    RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
   }
 }
 
@@ -420,7 +438,6 @@ function initKeyboard() {
 }
 
 function isNegative(value) {
-  // string
   return value.slice(0, 1) === "-";
 }
 
@@ -463,7 +480,7 @@ function prettify(value) {
 }
 
 function enterDigit(digit, operand) {
-  if (calculateValueLength(operand) >= MAX_DIGITS) {
+  if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
@@ -474,11 +491,14 @@ function enterDigit(digit, operand) {
   } else {
     operand = operand + digit;
   }
+  if (operand !== "0" && digit !== "0") {
+    CLEAR_BUTTON.textContent = "C";
+  }
   return operand;
 }
 
 function addDecimal(operand) {
-  if (calculateValueLength(operand) >= MAX_DIGITS) {
+  if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("can't add decimals");
     return operand;
   }
@@ -527,7 +547,6 @@ function operate(operation) {
 function setFractionDigits(value) {
   let fractionDigits = 6;
   value = (+value).toExponential(fractionDigits).toString();
-  valueLength = value.split(".").join("").length;
   let coefficient = value.split("e")[0];
   let exponent = value.split("e")[1];
 
@@ -545,7 +564,7 @@ function setFractionDigits(value) {
   value = (+value).toExponential(fractionDigits).toString();
   coefficient = value.split("e")[0];
   exponent = value.split("e")[1];
-  let coefficientLength = calculateValueLength(coefficient);
+  let coefficientLength = calculateAbsoluteValueLength(coefficient);
   let fullLength = coefficientLength + exponent.length;
   if (fullLength > MAX_DIGITS) {
     fractionDigits -= fullLength - MAX_DIGITS;
@@ -554,7 +573,7 @@ function setFractionDigits(value) {
   return fractionDigits;
 }
 
-function calculateValueLength(value) {
+function calculateAbsoluteValueLength(value) {
   console.log("value:", value);
   let valueLength = value.split(".").join("").length;
   valueLength = isNegative(value) ? valueLength - 1 : valueLength;
@@ -563,7 +582,7 @@ function calculateValueLength(value) {
 }
 
 function convertToExponential(value) {
-  let valueLength = calculateValueLength(value);
+  let valueLength = calculateAbsoluteValueLength(value);
   if (valueLength > MAX_DIGITS) {
     let fractionDigits = setFractionDigits(value);
     return (+value).toExponential(fractionDigits).toString();
