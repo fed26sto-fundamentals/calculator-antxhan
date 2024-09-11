@@ -11,4 +11,3 @@ My personal goal was to make a calculator as similar as possible to the iPhone i
 - [ ] fix: on the phone, when typing: 99 999 999,9 then pressing the negative toggle it rounds to -100 000 000;
 - [ ] fix: don't make button text selectable or zoom-in-able on mobile.
 - [ ] fix: should remove the + in exponents.
-- [ ] fix: Error in display doesn't adjust its font.

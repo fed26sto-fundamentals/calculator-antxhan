@@ -39,6 +39,7 @@ function handleSwipe(SWIPE_END) {
 function updateDisplay() {
   if (ERROR) {
     DISPLAY.textContent = "Error";
+    adjustFontSize();
     return;
   }
   if (DISPLAY_TOTAL) {
@@ -509,9 +510,8 @@ function minimizeFontSize(textWidth, displayWidth, fontSize) {
 }
 
 function adjustFontSize() {
-  let windowWidth = window.innerWidth;
   let maxFontSize = 72;
-  if (windowWidth < 431) {
+  if (window.innerWidth < 431) {
     maxFontSize = 88;
   }
   let displayWidth = DISPLAY.offsetWidth;
