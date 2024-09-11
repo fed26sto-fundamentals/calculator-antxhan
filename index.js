@@ -50,6 +50,8 @@ function updateDisplay() {
   } else {
     if (!RIGHT_OPERAND) {
       DISPLAY.textContent = LEFT_OPERAND;
+    } else if (calculateAbsoluteValueLength(RIGHT_OPERAND) > MAX_DIGITS) {
+      DISPLAY.textContent = convertToExponential(RIGHT_OPERAND);
     } else {
       DISPLAY.textContent = prettify(RIGHT_OPERAND);
     }
@@ -208,36 +210,28 @@ function handleNegative() {
   }
 }
 
+function makePercentage(operand) {
+  let operation = +operand / 100;
+  if (
+    (operation > 0 && operation < 1e-100) ||
+    (operation < 0 && operation > -1e-100)
+  ) {
+    ERROR = true;
+    console.log("Result has too many decimal places");
+    DISPLAY_TOTAL = true;
+    return;
+  }
+  return operation.toString();
+}
+
 function handlePercent() {
   if (ERROR) {
     return;
   }
   if (DISPLAY_TOTAL) {
-    let operation = +LEFT_OPERAND / 100;
-    if (
-      (operation > 0 && operation < 1e-100) ||
-      (operation < 0 && operation > -1e-100)
-    ) {
-      ERROR = true;
-      console.log("Result has too many decimal places");
-      // DISPLAY_TOTAL = true;
-      // DISPLAYING_TOTAL = true;
-      return;
-    }
-    LEFT_OPERAND = operation.toString();
+    LEFT_OPERAND = makePercentage(LEFT_OPERAND);
   } else {
-    let operation = +RIGHT_OPERAND / 100;
-    if (
-      (operation > 0 && operation < 1e-100) ||
-      (operation < 0 && operation > -1e-100)
-    ) {
-      ERROR = true;
-      console.log("Result has too many decimal places");
-      DISPLAY_TOTAL = true;
-      // DISPLAYING_TOTAL = true;
-      return;
-    }
-    RIGHT_OPERAND = operation.toString();
+    RIGHT_OPERAND = makePercentage(RIGHT_OPERAND);
   }
 }
 
