@@ -41,22 +41,22 @@ function updateDisplay() {
     DISPLAY.textContent = "Error";
     return;
   }
-  if (DISPLAY_TOTAL === true) {
-    if (calculateAbsoluteValueLength(LEFT_OPERAND) > MAX_DIGITS) {
-      DISPLAY.textContent = convertToExponential(LEFT_OPERAND);
-    } else {
-      DISPLAY.textContent = prettify(LEFT_OPERAND);
-    }
+  if (DISPLAY_TOTAL) {
+    DISPLAY.textContent = setDisplayText(LEFT_OPERAND);
   } else {
-    if (!RIGHT_OPERAND) {
-      DISPLAY.textContent = LEFT_OPERAND;
-    } else if (calculateAbsoluteValueLength(RIGHT_OPERAND) > MAX_DIGITS) {
-      DISPLAY.textContent = convertToExponential(RIGHT_OPERAND);
-    } else {
-      DISPLAY.textContent = prettify(RIGHT_OPERAND);
-    }
+    DISPLAY.textContent = setDisplayText(RIGHT_OPERAND);
   }
   adjustFontSize();
+}
+
+function setDisplayText(operand) {
+  if (!DISPLAY_TOTAL && !RIGHT_OPERAND) {
+    return LEFT_OPERAND;
+  } else if (calculateAbsoluteValueLength(operand) > MAX_DIGITS) {
+    return convertToExponential(operand);
+  } else {
+    return prettify(operand);
+  }
 }
 
 // BUTTON FUNCTIONS --------------------------------------------
@@ -208,20 +208,6 @@ function handleNegative() {
   } else {
     RIGHT_OPERAND = toggleNegative(RIGHT_OPERAND);
   }
-}
-
-function makePercentage(operand) {
-  let operation = +operand / 100;
-  if (
-    (operation > 0 && operation < 1e-100) ||
-    (operation < 0 && operation > -1e-100)
-  ) {
-    ERROR = true;
-    console.log("Result has too many decimal places");
-    DISPLAY_TOTAL = true;
-    return;
-  }
-  return operation.toString();
 }
 
 function handlePercent() {
@@ -465,6 +451,20 @@ function enterDigit(digit, operand) {
     CLEAR_BUTTON.textContent = "C";
   }
   return operand;
+}
+
+function makePercentage(operand) {
+  let operation = +operand / 100;
+  if (
+    (operation > 0 && operation < 1e-100) ||
+    (operation < 0 && operation > -1e-100)
+  ) {
+    ERROR = true;
+    console.log("Result has too many decimal places");
+    DISPLAY_TOTAL = true;
+    return;
+  }
+  return operation.toString();
 }
 
 function addDecimal(operand) {
