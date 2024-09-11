@@ -50,13 +50,9 @@ function updateDisplay() {
 }
 
 function setDisplayText(operand) {
-  if (!DISPLAY_TOTAL && !RIGHT_OPERAND) {
-    return LEFT_OPERAND;
-  } else if (calculateAbsoluteValueLength(operand) > MAX_DIGITS) {
-    return convertToExponential(operand);
-  } else {
-    return prettify(operand);
-  }
+  if (!DISPLAY_TOTAL && !RIGHT_OPERAND) return LEFT_OPERAND;
+  if (absoluteValueLength(operand) > MAX_DIGITS) return convertToExp(operand);
+  return prettify(operand);
 }
 
 // BUTTON FUNCTIONS --------------------------------------------
@@ -373,7 +369,7 @@ function toggleNegative(operand) {
 }
 
 function enterDigit(digit, operand) {
-  if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
+  if (absoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("Maximum amount of digits reached");
     return operand;
   }
@@ -390,18 +386,16 @@ function makePercentage(operand) {
     (operation < 0 && operation > -1e-100)
   ) {
     ERROR = true;
-    console.log("Result has too many decimal places");
     DISPLAY_TOTAL = true;
+    console.log("Result has too many decimal places");
     return;
   }
   return operation.toString();
 }
 
 function addDecimal(operand) {
-  if (!operand) {
-    return "0.";
-  }
-  if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
+  if (!operand) return "0.";
+  if (absoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("can't add decimals");
     return operand;
   }
@@ -487,7 +481,7 @@ function setFractionDigits(value) {
   value = (+value).toExponential(fractionDigits).toString();
   coefficient = value.split("e")[0];
   exponent = value.split("e")[1];
-  let coefficientLength = calculateAbsoluteValueLength(coefficient);
+  let coefficientLength = absoluteValueLength(coefficient);
   let fullLength = coefficientLength + exponent.length;
   if (fullLength > MAX_DIGITS) {
     fractionDigits -= fullLength - MAX_DIGITS;
@@ -496,14 +490,14 @@ function setFractionDigits(value) {
   return fractionDigits;
 }
 
-function calculateAbsoluteValueLength(value) {
+function absoluteValueLength(value) {
   let valueLength = value.split(".").join("").length;
   valueLength = isNegative(value) ? valueLength - 1 : valueLength;
   return valueLength;
 }
 
-function convertToExponential(value) {
-  let valueLength = calculateAbsoluteValueLength(value);
+function convertToExp(value) {
+  let valueLength = absoluteValueLength(value);
   if (valueLength > MAX_DIGITS) {
     let fractionDigits = setFractionDigits(value);
     return (+value).toExponential(fractionDigits).toString();
