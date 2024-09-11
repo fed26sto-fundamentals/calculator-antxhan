@@ -109,30 +109,6 @@ BUTTONS.forEach((button) => {
   });
 });
 
-function handleDigit1(digit) {
-  if (ERROR) {
-    handleClear();
-    LEFT_OPERAND = digit;
-    return;
-  }
-  if (DISPLAYING_TOTAL) {
-    LEFT_OPERAND = digit;
-    DISPLAYING_TOTAL = false;
-  } else {
-    if (DISPLAY_TOTAL) {
-      LEFT_OPERAND = enterDigit(digit, LEFT_OPERAND);
-      if (LEFT_OPERAND !== "0" && digit !== "0") {
-        CLEAR_BUTTON.textContent = "C";
-      }
-    } else {
-      RIGHT_OPERAND = enterDigit(digit, RIGHT_OPERAND);
-      if (RIGHT_OPERAND !== "0" && digit !== "0") {
-        CLEAR_BUTTON.textContent = "C";
-      }
-    }
-  }
-}
-
 function handleDigit(digit) {
   if (ERROR) {
     handleClear();
