@@ -366,14 +366,9 @@ function prettify(value) {
 }
 
 function toggleNegative(operand) {
-  if (isNegative(operand)) {
-    return operand.slice(1);
-  } else {
-    if (!operand) {
-      return "-0";
-    }
-    return "-" + operand;
-  }
+  if (isNegative(operand)) return operand.slice(1);
+  if (!operand) return "-0";
+  return "-" + operand;
 }
 
 function enterDigit(digit, operand) {
