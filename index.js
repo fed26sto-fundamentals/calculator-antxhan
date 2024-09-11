@@ -497,13 +497,8 @@ function absoluteValueLength(value) {
 }
 
 function convertToExp(value) {
-  let valueLength = absoluteValueLength(value);
-  if (valueLength > MAX_DIGITS) {
-    let fractionDigits = setFractionDigits(value);
-    return (+value).toExponential(fractionDigits).toString();
-  } else {
-    return value;
-  }
+  const fractionDigits = setFractionDigits(value);
+  return (+value).toExponential(fractionDigits).toString();
 }
 
 function minimizeFontSize(textWidth, displayWidth, fontSize) {
