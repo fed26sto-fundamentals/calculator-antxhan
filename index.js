@@ -202,20 +202,9 @@ function handleNegative() {
     return;
   }
   if (DISPLAY_TOTAL) {
-    if (isNegative(LEFT_OPERAND)) {
-      LEFT_OPERAND = LEFT_OPERAND.slice(1);
-    } else {
-      LEFT_OPERAND = "-" + LEFT_OPERAND;
-    }
+    LEFT_OPERAND = toggleNegative(LEFT_OPERAND);
   } else {
-    if (isNegative(RIGHT_OPERAND)) {
-      RIGHT_OPERAND = RIGHT_OPERAND.slice(1);
-    } else {
-      if (!RIGHT_OPERAND) {
-        RIGHT_OPERAND = "0";
-      }
-      RIGHT_OPERAND = "-" + RIGHT_OPERAND;
-    }
+    RIGHT_OPERAND = toggleNegative(RIGHT_OPERAND);
   }
 }
 
@@ -455,6 +444,17 @@ function prettify(value) {
   }
 }
 
+function toggleNegative(operand) {
+  if (isNegative(operand)) {
+    return operand.slice(1);
+  } else {
+    if (!operand) {
+      return "-0";
+    }
+    return "-" + operand;
+  }
+}
+
 function enterDigit(digit, operand) {
   if (calculateAbsoluteValueLength(operand) >= MAX_DIGITS) {
     console.log("Maximum amount of digits reached");
@@ -550,10 +550,8 @@ function setFractionDigits(value) {
 }
 
 function calculateAbsoluteValueLength(value) {
-  console.log("value:", value);
   let valueLength = value.split(".").join("").length;
   valueLength = isNegative(value) ? valueLength - 1 : valueLength;
-  console.log("valueLengt:", valueLength);
   return valueLength;
 }
 
